@@ -88,6 +88,7 @@ figure {
   @media screen and (max-width: 768px) {
     #colorlib-aside {
       width: 300px;
+      overflow: scroll;
       -moz-transform: translateX(-300px);
       -webkit-transform: translateX(-300px);
       -ms-transform: translateX(-300px);
@@ -122,6 +123,7 @@ figure {
       padding-right: .3em; }
   #colorlib-aside #colorlib-main-menu {
     display: block;
+    min-height: 300px;
     width: 100%; }
     #colorlib-aside #colorlib-main-menu .collapse {
       display: block !important; }
@@ -131,7 +133,10 @@ figure {
       padding: 0; }
       @media screen and (max-width: 768px) {
         #colorlib-aside #colorlib-main-menu ul {
-          margin: 0 0 2em 0; } }
+          margin: 0 0 2em 0; 
+          }
+        #colorlib-aside #colorlib-main-menu {
+          min-height: 300px; } }
       #colorlib-aside #colorlib-main-menu ul li {
         margin: 0 0 10px 0;
         padding: 0;
@@ -194,11 +199,11 @@ figure {
     color: #999999;
     padding: 0 20px;
     width: 100%; 
-    position: absolute;
+    position: relative;
     bottom: 0; }
     @media screen and (max-width: 768px) {
       #colorlib-aside .colorlib-footer {
-        position: absolute;
+        position: relative;
         bottom: 0; } }
     #colorlib-aside .colorlib-footer span {
       display: block; }
