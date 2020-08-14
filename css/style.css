@@ -136,6 +136,7 @@ figure {
           margin: 0 0 2em 0; 
           }
         #colorlib-aside #colorlib-main-menu {
+          overflow-y: scroll;
           min-height: 300px; } }
       #colorlib-aside #colorlib-main-menu ul li {
         margin: 0 0 10px 0;
