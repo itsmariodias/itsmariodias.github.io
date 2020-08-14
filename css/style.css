@@ -89,6 +89,7 @@ figure {
     #colorlib-aside {
       width: 300px;
       overflow: scroll;
+      overflow-y: auto;
       -moz-transform: translateX(-300px);
       -webkit-transform: translateX(-300px);
       -ms-transform: translateX(-300px);
@@ -136,7 +137,6 @@ figure {
           margin: 0 0 2em 0; 
           }
         #colorlib-aside #colorlib-main-menu {
-          overflow-y: scroll;
           min-height: 300px; } }
       #colorlib-aside #colorlib-main-menu ul li {
         margin: 0 0 10px 0;
