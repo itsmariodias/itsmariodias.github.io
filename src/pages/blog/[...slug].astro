@@ -1,0 +1,53 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate } from '../../utils/formatDate';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+<BaseLayout title={`${post.data.title} · Mario Dias`} description={post.data.description} canonicalUrl={post.data.canonicalUrl}>
+  <article class="container-narrow py-16">
+    <header class="mb-10">
+      <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Post</p>
+      <h1 class="font-display text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
+        {post.data.title}
+      </h1>
+      <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
+        <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+        {post.data.updatedDate && (
+          <span>· Updated {formatDate(post.data.updatedDate)}</span>
+        )}
+        {post.data.tags.length > 0 && (
+          <ul class="flex flex-wrap gap-2">
+            {post.data.tags.map((t) => (
+              <li>
+                <a href={`/tags/${t}/`} class="hover:text-accent">#{t}</a>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
+    </header>
+
+    <div class="prose prose-zinc max-w-none dark:prose-invert">
+      <Content />
+    </div>
+
+    <p class="mt-16 text-sm">
+      <a href="/blog/" class="text-accent hover:underline">← Back to blog</a>
+    </p>
+  </article>
+</BaseLayout>

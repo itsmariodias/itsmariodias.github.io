@@ -1,0 +1,57 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate } from '../../utils/formatDate';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => !data.draft);
+  const tags = new Set<string>();
+  for (const post of posts) {
+    for (const tag of post.data.tags) tags.add(tag);
+  }
+  return [...tags].map((tag) => ({
+    params: { tag },
+    props: {
+      tag,
+      posts: posts
+        .filter((p) => p.data.tags.includes(tag))
+        .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+    },
+  }));
+}
+
+interface Props {
+  tag: string;
+  posts: CollectionEntry<'blog'>[];
+}
+
+const { tag, posts } = Astro.props;
+---
+<BaseLayout title={`#${tag} · Mario Dias`}>
+  <section class="container-narrow py-16">
+    <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Tag</p>
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
+      #{tag}
+    </h1>
+    <p class="mt-3 text-zinc-600 dark:text-zinc-400">
+      {posts.length} post{posts.length === 1 ? '' : 's'}
+    </p>
+
+    <ul class="mt-10 divide-y divide-zinc-200 dark:divide-zinc-800">
+      {posts.map((post) => (
+        <li class="py-5">
+          <a href={`/blog/${post.slug}/`} class="group flex flex-wrap items-baseline justify-between gap-x-4">
+            <h2 class="font-display text-xl font-semibold text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
+              {post.data.title}
+            </h2>
+            <time class="text-sm text-zinc-500 dark:text-zinc-400">{formatDate(post.data.pubDate)}</time>
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-12 text-sm">
+      <a href="/tags/" class="text-accent hover:underline">← All tags</a>
+    </p>
+  </section>
+</BaseLayout>

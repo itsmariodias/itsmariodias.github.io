@@ -1,0 +1,51 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { formatDate } from '../../utils/formatDate';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+<BaseLayout title="Blog · Mario Dias" description="Writing on deep learning, side projects, and whatever I'm figuring out.">
+  <section class="container-narrow py-16">
+    <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Writing</p>
+    <h1 class="font-display text-4xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-5xl">
+      Blog
+    </h1>
+    <p class="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
+      Notes on deep learning, side projects, and things I'm figuring out as I go.
+    </p>
+
+    <ul class="mt-12 divide-y divide-zinc-200 dark:divide-zinc-800">
+      {posts.map((post) => (
+        <li class="py-6">
+          <a href={`/blog/${post.slug}/`} class="group block">
+            <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+              <h2 class="font-display text-2xl font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
+                {post.data.title}
+              </h2>
+              <time datetime={post.data.pubDate.toISOString()} class="text-sm text-zinc-500 dark:text-zinc-400">
+                {formatDate(post.data.pubDate)}
+              </time>
+            </div>
+            {post.data.description && (
+              <p class="mt-2 text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
+            )}
+            {post.data.tags.length > 0 && (
+              <ul class="mt-3 flex flex-wrap gap-2">
+                {post.data.tags.map((t) => (
+                  <li class="text-xs text-zinc-500 dark:text-zinc-400">#{t}</li>
+                ))}
+              </ul>
+            )}
+          </a>
+        </li>
+      ))}
+    </ul>
+
+    <p class="mt-12 text-sm text-zinc-500 dark:text-zinc-400">
+      Browse by <a href="/tags/" class="text-accent hover:underline">tag</a>.
+    </p>
+  </section>
+</BaseLayout>

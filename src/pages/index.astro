@@ -1,0 +1,36 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/resume/Hero.astro';
+import Section from '../components/resume/Section.astro';
+import ExperienceList from '../components/resume/ExperienceList.astro';
+import Publications from '../components/resume/Publications.astro';
+import EducationList from '../components/resume/EducationList.astro';
+import Awards from '../components/resume/Awards.astro';
+import Certifications from '../components/resume/Certifications.astro';
+import Skills from '../components/resume/Skills.astro';
+import Contact from '../components/resume/Contact.astro';
+---
+<BaseLayout title="Mario Dias · Resume">
+  <Hero />
+  <Section id="experience" eyebrow="Experience" title="Where I've worked">
+    <ExperienceList />
+  </Section>
+  <Section id="publications" eyebrow="Research" title="Publications">
+    <Publications />
+  </Section>
+  <Section id="skills" eyebrow="Stack" title="Technical skills">
+    <Skills />
+  </Section>
+  <Section id="education" eyebrow="Education" title="What I studied">
+    <EducationList />
+  </Section>
+  <Section id="awards" eyebrow="Recognition" title="Awards">
+    <Awards />
+  </Section>
+  <Section id="certifications" eyebrow="Credentials" title="Certifications">
+    <Certifications />
+  </Section>
+  <Section id="contact" eyebrow="Get in touch" title="Contact">
+    <Contact />
+  </Section>
+</BaseLayout>
