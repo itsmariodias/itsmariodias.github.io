@@ -33,4 +33,4 @@ The resume is data-driven. Edit `src/data/resume.ts` (about, experience, publica
 
 ## Deploy
 
-Pushing to `master` triggers `.github/workflows/deploy.yml`, which builds with `withastro/action@v3` and publishes to GitHub Pages. In repo Settings → Pages, the source must be set to **GitHub Actions**.
+Pushing to `main` triggers `.github/workflows/deploy.yml`, which builds with `withastro/action@v3` and publishes to GitHub Pages. In repo Settings → Pages, the source must be set to **GitHub Actions**.
