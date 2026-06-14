@@ -1,36 +1,91 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
-import Hero from '../components/resume/Hero.astro';
-import Section from '../components/resume/Section.astro';
-import ExperienceList from '../components/resume/ExperienceList.astro';
-import Publications from '../components/resume/Publications.astro';
-import EducationList from '../components/resume/EducationList.astro';
-import Awards from '../components/resume/Awards.astro';
-import Certifications from '../components/resume/Certifications.astro';
-import Skills from '../components/resume/Skills.astro';
-import Contact from '../components/resume/Contact.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import TerminalHeading from '../components/TerminalHeading.astro';
+import { resume } from '../profile/resume';
+import { projects } from '../profile/projects';
+import { formatDate } from '../utils/formatDate';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+
+const featured = projects.find((p) => p.featured) ?? projects[0];
 ---
-<BaseLayout title="Mario Dias · Resume">
-  <Hero />
-  <Section id="experience" eyebrow="Experience" title="Where I've worked">
-    <ExperienceList />
-  </Section>
-  <Section id="publications" eyebrow="Research" title="Publications">
-    <Publications />
-  </Section>
-  <Section id="skills" eyebrow="Stack" title="Technical skills">
-    <Skills />
-  </Section>
-  <Section id="education" eyebrow="Education" title="What I studied">
-    <EducationList />
-  </Section>
-  <Section id="awards" eyebrow="Recognition" title="Awards">
-    <Awards />
-  </Section>
-  <Section id="certifications" eyebrow="Credentials" title="Certifications">
-    <Certifications />
-  </Section>
-  <Section id="contact" eyebrow="Get in touch" title="Contact">
-    <Contact />
-  </Section>
+<BaseLayout title="Mario Dias">
+  <section class="container-narrow pt-20 pb-10">
+    <p class="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-accent">{resume.tagline}</p>
+    <TerminalHeading text={`Hi, I'm ${resume.name}.`} />
+    <p class="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600 dark:text-zinc-400">
+      {resume.about[0]}
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 text-sm">
+      <a href="/about" class="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 font-medium text-white transition hover:bg-accent/90">
+        Read the full resume
+        <span aria-hidden="true">→</span>
+      </a>
+      <a href="/about#contact" class="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 px-4 py-2 font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent">
+        Get in touch
+      </a>
+    </div>
+  </section>
+
+  <section class="container-narrow py-12">
+    <div class="flex items-baseline justify-between gap-4">
+      <div>
+        <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Writing</p>
+        <h2 class="font-display text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
+          Latest posts
+        </h2>
+      </div>
+      <a href="/blog" class="text-sm font-medium text-accent hover:underline">All posts →</a>
+    </div>
+
+    {posts.length === 0 ? (
+      <p class="mt-6 text-zinc-600 dark:text-zinc-400">Nothing yet.</p>
+    ) : (
+      <ul class="mt-8 divide-y divide-zinc-200 dark:divide-zinc-800">
+        {posts.map((post) => (
+          <li class="py-5">
+            <a href={`/blog/${post.slug}/`} class="group block">
+              <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+                <h3 class="font-display text-lg font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
+                  {post.data.title}
+                </h3>
+                <time class="text-sm text-zinc-500 dark:text-zinc-400">{formatDate(post.data.pubDate)}</time>
+              </div>
+              {post.data.description && (
+                <p class="mt-1 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
+              )}
+            </a>
+          </li>
+        ))}
+      </ul>
+    )}
+  </section>
+
+  {featured && (
+    <section class="container-narrow py-12">
+      <div class="flex items-baseline justify-between gap-4">
+        <div>
+          <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Featured</p>
+          <h2 class="font-display text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
+            Project
+          </h2>
+        </div>
+        <a href="/projects" class="text-sm font-medium text-accent hover:underline">All projects →</a>
+      </div>
+      <div class="mt-8">
+        <ProjectCard
+          title={featured.title}
+          description={featured.description}
+          year={featured.year}
+          tags={featured.tags}
+          links={featured.links}
+          cover={featured.cover}
+        />
+      </div>
+    </section>
+  )}
 </BaseLayout>

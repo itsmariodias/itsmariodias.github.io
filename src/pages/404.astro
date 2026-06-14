@@ -1,0 +1,29 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="404 · Mario Dias" description="That page doesn't exist.">
+  <section class="container-narrow flex min-h-[60vh] flex-col items-start justify-center py-16">
+    <p class="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-accent">404</p>
+    <h1 class="font-display text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl">
+      Page not found
+    </h1>
+    <p class="mt-6 max-w-xl text-lg text-zinc-600 dark:text-zinc-400">
+      The page you're looking for moved or never existed. Try one of these instead.
+    </p>
+    <div class="mt-8 flex flex-wrap gap-3 text-sm">
+      <a href="/" class="inline-flex items-center gap-1.5 rounded-full bg-accent px-4 py-2 font-medium text-white transition hover:bg-accent/90">
+        Home
+        <span aria-hidden="true">→</span>
+      </a>
+      <a href="/blog" class="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 px-4 py-2 font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent">
+        Blog
+      </a>
+      <a href="/projects" class="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 px-4 py-2 font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent">
+        Projects
+      </a>
+      <a href="/about" class="inline-flex items-center gap-1.5 rounded-full border border-zinc-300 px-4 py-2 font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent">
+        About
+      </a>
+    </div>
+  </section>
+</BaseLayout>

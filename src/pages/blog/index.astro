@@ -1,11 +1,21 @@
 ---
 import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import { formatDate } from '../../utils/formatDate';
+import { readingTime } from '../../utils/readingTime';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const groups = new Map<number, typeof posts>();
+for (const post of posts) {
+  const year = post.data.pubDate.getFullYear();
+  if (!groups.has(year)) groups.set(year, []);
+  groups.get(year)!.push(post);
+}
+const years = [...groups.keys()].sort((a, b) => b - a);
 ---
 <BaseLayout title="Blog · Mario Dias" description="Writing on deep learning, side projects, and whatever I'm figuring out.">
   <section class="container-narrow py-16">
@@ -16,36 +26,120 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
     <p class="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
       Notes on deep learning, side projects, and things I'm figuring out as I go.
     </p>
+  </section>
 
-    <ul class="mt-12 divide-y divide-zinc-200 dark:divide-zinc-800">
-      {posts.map((post) => (
-        <li class="py-6">
-          <a href={`/blog/${post.slug}/`} class="group block">
-            <div class="flex flex-wrap items-baseline justify-between gap-x-4">
-              <h2 class="font-display text-2xl font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
-                {post.data.title}
-              </h2>
-              <time datetime={post.data.pubDate.toISOString()} class="text-sm text-zinc-500 dark:text-zinc-400">
-                {formatDate(post.data.pubDate)}
-              </time>
-            </div>
-            {post.data.description && (
-              <p class="mt-2 text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
-            )}
-            {post.data.tags.length > 0 && (
-              <ul class="mt-3 flex flex-wrap gap-2">
-                {post.data.tags.map((t) => (
-                  <li class="text-xs text-zinc-500 dark:text-zinc-400">#{t}</li>
-                ))}
-              </ul>
-            )}
-          </a>
-        </li>
-      ))}
-    </ul>
+  <div class="container-narrow relative pb-16">
+    {years.length > 0 && (
+      <aside class="pointer-events-none absolute left-full top-0 ml-8 hidden h-full w-44 xl:block">
+        <div class="pointer-events-auto sticky top-24">
+          <p class="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
+            Timeline
+          </p>
+          <ol class="space-y-1 border-l border-zinc-200 dark:border-zinc-800">
+            {years.map((year) => (
+              <li>
+                <a
+                  href={`#y-${year}`}
+                  data-section-link={`y-${year}`}
+                  class="group flex items-baseline justify-between gap-3 py-1.5 pl-4 text-sm text-zinc-600 transition hover:text-accent dark:text-zinc-400"
+                >
+                  <span class="font-medium tabular-nums">{year}</span>
+                  <span class="text-xs text-zinc-400 dark:text-zinc-500">{groups.get(year)!.length}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
+    )}
+
+    {years.length === 0 ? (
+      <p class="text-zinc-600 dark:text-zinc-400">Nothing yet.</p>
+    ) : (
+      <ol class="space-y-14">
+        {years.map((year) => (
+          <li id={`y-${year}`} class="scroll-mt-24">
+            <h2 class="mb-4 font-display text-sm font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
+              {year}
+            </h2>
+            <ul class="divide-y divide-zinc-200 dark:divide-zinc-800">
+              {groups.get(year)!.map((post) => (
+                <li class="py-6">
+                  <a href={`/blog/${post.slug}/`} class="group flex flex-col gap-5 sm:flex-row">
+                    {post.data.cover && (
+                      <Image
+                        src={post.data.cover}
+                        alt={post.data.coverAlt ?? ''}
+                        widths={[256, 512]}
+                        sizes="(min-width: 640px) 112px, 100vw"
+                        class="aspect-video w-full shrink-0 rounded-lg object-cover sm:aspect-square sm:h-28 sm:w-28"
+                      />
+                    )}
+                    <div class="min-w-0 flex-1">
+                      <div class="flex flex-wrap items-baseline justify-between gap-x-4">
+                        <h3 class="font-display text-xl font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
+                          {post.data.title}
+                        </h3>
+                        <time datetime={post.data.pubDate.toISOString()} class="text-sm text-zinc-500 dark:text-zinc-400">
+                          {formatDate(post.data.pubDate)}
+                        </time>
+                      </div>
+                      {post.data.description && (
+                        <p class="mt-2 text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
+                      )}
+                      <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">{readingTime(post.body)}</p>
+                      {post.data.tags.length > 0 && (
+                        <ul class="mt-3 flex flex-wrap gap-2">
+                          {post.data.tags.map((t) => (
+                            <li class="text-xs text-zinc-500 dark:text-zinc-400">#{t}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </li>
+        ))}
+      </ol>
+    )}
 
     <p class="mt-12 text-sm text-zinc-500 dark:text-zinc-400">
-      Browse by <a href="/tags/" class="text-accent hover:underline">tag</a>.
+      Browse by <a href="/tags/" class="text-accent hover:underline">tag</a> or <a href="/years/" class="text-accent hover:underline">year</a>. Subscribe via <a href="/rss.xml" class="text-accent hover:underline">RSS</a>.
     </p>
-  </section>
+  </div>
+
+  <script>
+    (() => {
+      const links = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('a[data-section-link^="y-"]'),
+      );
+      if (!links.length) return;
+
+      const setActive = (id: string | null) => {
+        links.forEach((link) => {
+          const isActive = link.dataset.sectionLink === id;
+          link.classList.toggle('text-accent', isActive);
+          link.classList.toggle('text-zinc-600', !isActive);
+          link.classList.toggle('dark:text-zinc-400', !isActive);
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+          if (visible) setActive(visible.target.id);
+        },
+        { rootMargin: '-30% 0px -55% 0px', threshold: 0 },
+      );
+      links.forEach((link) => {
+        const id = link.dataset.sectionLink ?? '';
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    })();
+  </script>
 </BaseLayout>

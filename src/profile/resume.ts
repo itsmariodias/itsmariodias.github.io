@@ -20,14 +20,6 @@ interface Certification {
   year: string;
 }
 
-interface Publication {
-  authors: string;
-  title: string;
-  venue: string;
-  year: string;
-  doi?: string;
-}
-
 interface Award {
   title: string;
   issuer: string;
@@ -47,7 +39,7 @@ export const resume = {
   location: 'Mumbai, Maharashtra, India',
   email: 'mario.dias3100@gmail.com',
   about: [
-    "Hi, I'm Mario. I'm an AI engineer with a strong backend and data-engineering background. I've built scalable systems with Java, Spring, Python, and Databricks, and I spend most of my time integrating AI into enterprise workflows using LangGraph, FastAPI, and Azure OpenAI.",
+    "I'm an AI engineer with a strong backend and data-engineering background. I've built scalable systems with Java, Spring, Python, and Databricks, and I spend most of my time integrating AI into enterprise workflows using LangGraph, FastAPI, and Azure OpenAI.",
     "These days I work in applied AI, building intelligent systems and agents that solve real business problems. I care about production-grade engineering as much as the model behind it, and I'm happiest working at the intersection of software engineering and AI.",
   ],
   experience: [
@@ -110,22 +102,6 @@ export const resume = {
       result: 'CGPA 10.0 / 10',
     },
   ] satisfies Education[],
-  publications: [
-    {
-      authors: 'Dias, M., Aloj, H., Ninan, N., Koshti, D., Kamoji, S.',
-      title: 'First Aid and Emergency Assistance Robot for Individuals at Home using IoT and Deep Learning',
-      venue: 'IEEE 7th International Conference on Computing Methodologies and Communication (ICCMC)',
-      year: '2023',
-      doi: 'https://doi.org/10.1109/ICCMC56507.2023.10083934',
-    },
-    {
-      authors: 'Dias, M., Aloj, H., Ninan, N., Koshti, D.',
-      title: 'BERT-based Multiple Parallel Co-attention Model for Visual Question Answering',
-      venue: 'IEEE 6th International Conference on Intelligent Computing and Control Systems (ICICCS)',
-      year: '2022',
-      doi: 'https://doi.org/10.1109/ICICCS53718.2022.9788253',
-    },
-  ] satisfies Publication[],
   awards: [
     {
       title: 'Outstanding Performer Achievement',

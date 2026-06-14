@@ -1,8 +1,8 @@
 ---
-import { resume } from '../../data/resume';
+import { publications } from '../../profile/projects';
 ---
 <ol class="space-y-6">
-  {resume.publications.map((p) => (
+  {publications.map((p) => (
     <li class="rounded-2xl border border-zinc-200 p-6 transition hover:border-accent dark:border-zinc-800 dark:hover:border-accent">
       <h3 class="font-display text-lg font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
         {p.doi ? (

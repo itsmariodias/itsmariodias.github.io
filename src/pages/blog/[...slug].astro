@@ -1,22 +1,33 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
+import CopyCode from '../../components/CopyCode.astro';
 import { formatDate } from '../../utils/formatDate';
+import { readingTime } from '../../utils/readingTime';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog', ({ data }) => !data.draft);
-  return posts.map((post) => ({
+  const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+  );
+  return posts.map((post, i) => ({
     params: { slug: post.slug },
-    props: { post },
+    props: {
+      post,
+      newer: i > 0 ? posts[i - 1] : null,
+      older: i < posts.length - 1 ? posts[i + 1] : null,
+    },
   }));
 }
 
 interface Props {
   post: CollectionEntry<'blog'>;
+  newer: CollectionEntry<'blog'> | null;
+  older: CollectionEntry<'blog'> | null;
 }
 
-const { post } = Astro.props;
+const { post, newer, older } = Astro.props;
 const { Content } = await post.render();
+const reading = readingTime(post.body);
 ---
 <BaseLayout title={`${post.data.title} · Mario Dias`} description={post.data.description} canonicalUrl={post.data.canonicalUrl}>
   <article class="container-narrow py-16">
@@ -27,8 +38,13 @@ const { Content } = await post.render();
       </h1>
       <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-zinc-500 dark:text-zinc-400">
         <time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>
+        <span aria-hidden="true">·</span>
+        <span>{reading}</span>
         {post.data.updatedDate && (
-          <span>· Updated {formatDate(post.data.updatedDate)}</span>
+          <>
+            <span aria-hidden="true">·</span>
+            <span>Updated {formatDate(post.data.updatedDate)}</span>
+          </>
         )}
         {post.data.tags.length > 0 && (
           <ul class="flex flex-wrap gap-2">
@@ -45,8 +61,26 @@ const { Content } = await post.render();
     <div class="prose prose-zinc max-w-none dark:prose-invert">
       <Content />
     </div>
+    <CopyCode />
 
-    <p class="mt-16 text-sm">
+    {(newer || older) && (
+      <nav class="mt-16 grid gap-4 border-t border-zinc-200 pt-8 sm:grid-cols-2 dark:border-zinc-800" aria-label="Adjacent posts">
+        {newer ? (
+          <a href={`/blog/${newer.slug}/`} class="group rounded-xl border border-zinc-200 p-5 transition hover:border-accent dark:border-zinc-800 dark:hover:border-accent">
+            <p class="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">← Newer</p>
+            <p class="mt-1 font-display font-medium text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">{newer.data.title}</p>
+          </a>
+        ) : <span />}
+        {older ? (
+          <a href={`/blog/${older.slug}/`} class="group rounded-xl border border-zinc-200 p-5 text-right transition hover:border-accent dark:border-zinc-800 dark:hover:border-accent">
+            <p class="text-xs uppercase tracking-wider text-zinc-500 dark:text-zinc-400">Older →</p>
+            <p class="mt-1 font-display font-medium text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">{older.data.title}</p>
+          </a>
+        ) : <span />}
+      </nav>
+    )}
+
+    <p class="mt-12 text-sm">
       <a href="/blog/" class="text-accent hover:underline">← Back to blog</a>
     </p>
   </article>

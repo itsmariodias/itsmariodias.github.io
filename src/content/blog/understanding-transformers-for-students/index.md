@@ -144,9 +144,9 @@ This post is meant as a starting point. If you want to go deeper, read the origi
 
 ## References
 
-- *Transformers Explained Visually*, Ketan Doshi
-- *The Illustrated Transformer*, Michael Phi
-- *Training the Transformer Model*, Machine Learning Mastery
-- *Attention Is All You Need*, Vaswani et al.
-- Transformer tutorial, TensorFlow
-- Transformer tutorial, PyTorch
+- [Transformers Explained Visually — Ketan Doshi](https://towardsdatascience.com/transformers-explained-visually-part-1-overview-of-functionality-95a6dd460452)
+- [Illustrated Guide to Transformers — Michael Phi](https://towardsdatascience.com/illustrated-guide-to-transformers-step-by-step-explanation-f74876522bc0)
+- [Training the Transformer Model — Machine Learning Mastery](https://machinelearningmastery.com/training-the-transformer-model/)
+- [Attention Is All You Need — Ashish Vaswani, Noam Shazeer, Niki Parmar, et al.](https://arxiv.org/abs/1706.03762)
+- [Transformer Tutorial - TensorFlow](https://www.tensorflow.org/text/tutorials/transformer)
+- [Transformer Tutorial - PyTorch](https://nlp.seas.harvard.edu/annotated-transformer/)

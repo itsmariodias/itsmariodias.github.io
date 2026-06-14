@@ -1,0 +1,115 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Hero from '../components/resume/Hero.astro';
+import Section from '../components/resume/Section.astro';
+import ExperienceList from '../components/resume/ExperienceList.astro';
+import EducationList from '../components/resume/EducationList.astro';
+import Awards from '../components/resume/Awards.astro';
+import Certifications from '../components/resume/Certifications.astro';
+import Skills from '../components/resume/Skills.astro';
+import Contact from '../components/resume/Contact.astro';
+
+const sections = [
+  { id: 'experience', label: 'Experience' },
+  { id: 'skills', label: 'Skills' },
+  { id: 'education', label: 'Education' },
+  { id: 'awards', label: 'Awards' },
+  { id: 'certifications', label: 'Certifications' },
+  { id: 'contact', label: 'Contact' },
+];
+---
+<BaseLayout title="About · Mario Dias">
+  <Hero />
+
+  <div class="container-narrow -mt-4 mb-8">
+    <a
+      href="/resume.pdf"
+      download
+      class="inline-flex items-center gap-2 rounded-full border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-700 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent"
+    >
+      <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M12 3v12" />
+        <path d="m7 10 5 5 5-5" />
+        <path d="M5 21h14" />
+      </svg>
+      Download resume PDF
+    </a>
+  </div>
+
+  <div class="relative">
+    <aside class="pointer-events-none absolute left-1/2 top-0 ml-[26rem] hidden h-full w-44 xl:block">
+      <div class="pointer-events-auto sticky top-24">
+        <p class="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
+          On this page
+        </p>
+        <ol class="space-y-1 border-l border-zinc-200 dark:border-zinc-800">
+          {sections.map((s) => (
+            <li>
+              <a
+                href={`#${s.id}`}
+                data-section-link={s.id}
+                class="block py-1.5 pl-4 text-sm text-zinc-600 transition hover:text-accent dark:text-zinc-400"
+              >
+                {s.label}
+              </a>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </aside>
+
+    <Section id="experience" eyebrow="Experience" title="Where I've worked">
+      <ExperienceList />
+    </Section>
+    <Section id="skills" eyebrow="Stack" title="Technical skills">
+      <Skills />
+    </Section>
+    <Section id="education" eyebrow="Education" title="What I studied">
+      <EducationList />
+    </Section>
+    <Section id="awards" eyebrow="Recognition" title="Awards">
+      <Awards />
+    </Section>
+    <Section id="certifications" eyebrow="Credentials" title="Certifications">
+      <Certifications />
+    </Section>
+    <Section id="contact" eyebrow="Get in touch" title="Contact">
+      <Contact />
+    </Section>
+  </div>
+
+  <script>
+    (() => {
+      const links = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>('a[data-section-link]'),
+      );
+      if (!links.length) return;
+      const byId = new Map<string, HTMLAnchorElement>();
+      links.forEach((link) => byId.set(link.dataset.sectionLink ?? '', link));
+
+      const setActive = (id: string | null) => {
+        links.forEach((link) => {
+          const isActive = link.dataset.sectionLink === id;
+          link.classList.toggle('text-accent', isActive);
+          link.classList.toggle('font-medium', isActive);
+          link.classList.toggle('text-zinc-600', !isActive);
+          link.classList.toggle('dark:text-zinc-400', !isActive);
+        });
+      };
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          const visible = entries
+            .filter((e) => e.isIntersecting)
+            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+          if (visible) setActive(visible.target.id);
+        },
+        { rootMargin: '-30% 0px -55% 0px', threshold: 0 },
+      );
+      byId.forEach((_, id) => {
+        const el = document.getElementById(id);
+        if (el) observer.observe(el);
+      });
+    })();
+  </script>
+</BaseLayout>

@@ -32,6 +32,91 @@
   .container-wide {
     @apply mx-auto w-full max-w-5xl px-6;
   }
+
+  /* Terminal-style caret that follows the typewriter as it types.
+   * Stays solid (no blink); JS removes the element after typing finishes. */
+  .terminal-caret {
+    display: inline-block;
+    margin-left: 0.08em;
+    color: theme('colors.accent.DEFAULT');
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .terminal-caret {
+      display: none;
+    }
+  }
+}
+
+/* Heading anchors injected by rehype-autolink-headings. */
+.prose .heading-anchor {
+  margin-left: 0.4em;
+  opacity: 0;
+  color: theme('colors.zinc.400');
+  text-decoration: none;
+  transition: opacity 0.15s ease;
+}
+.prose h1:hover .heading-anchor,
+.prose h2:hover .heading-anchor,
+.prose h3:hover .heading-anchor,
+.prose h4:hover .heading-anchor,
+.prose .heading-anchor:focus {
+  opacity: 1;
+  color: theme('colors.accent.DEFAULT');
+}
+.prose h1, .prose h2, .prose h3, .prose h4 {
+  scroll-margin-top: 5rem;
+}
+
+/* Copy button injected into code blocks by src/components/CopyCode.astro */
+.prose pre.astro-code {
+  position: relative;
+}
+.copy-code-btn {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 0.375rem;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+.prose pre.astro-code:hover .copy-code-btn,
+.copy-code-btn:focus-visible {
+  opacity: 1;
+}
+.copy-code-btn:hover {
+  color: theme('colors.accent.DEFAULT');
+  border-color: theme('colors.accent.DEFAULT');
+}
+.copy-code-btn .check-icon,
+.copy-code-btn.copied .copy-icon {
+  display: none;
+}
+.copy-code-btn.copied .check-icon {
+  display: block;
+}
+.copy-code-btn.copied {
+  color: theme('colors.accent.DEFAULT');
+  border-color: theme('colors.accent.DEFAULT');
+  opacity: 1;
+}
+.copy-code-btn svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+/* Light-mode contrast tweak */
+html:not(.dark) .copy-code-btn {
+  border-color: rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.7);
+  color: rgba(0, 0, 0, 0.55);
 }
 
 /* Shiki dual-theme: hide the dark variant by default, swap when html.dark is set */

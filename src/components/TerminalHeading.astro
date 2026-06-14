@@ -1,0 +1,44 @@
+---
+interface Props {
+  text: string;
+}
+const { text } = Astro.props;
+---
+<h1 class="font-display text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl">
+  <span class="terminal-typewriter" data-text={text}>{text}<span class="terminal-caret" aria-hidden="true">▍</span></span>
+</h1>
+
+<script>
+  (() => {
+    const els = document.querySelectorAll<HTMLElement>('.terminal-typewriter');
+    if (!els.length) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const charMs = 70;
+    const punctMs = 320;
+
+    els.forEach((el) => {
+      const text = el.dataset.text ?? '';
+      el.textContent = '';
+      const caret = document.createElement('span');
+      caret.className = 'terminal-caret';
+      caret.setAttribute('aria-hidden', 'true');
+      caret.textContent = '▍';
+      el.appendChild(caret);
+
+      let i = 0;
+      const tick = () => {
+        if (i < text.length) {
+          const ch = text[i];
+          el.insertBefore(document.createTextNode(ch), caret);
+          i += 1;
+          const wait = /[,.!?:;]/.test(ch) ? punctMs : charMs;
+          window.setTimeout(tick, wait);
+        } else {
+          caret.remove();
+        }
+      };
+      tick();
+    });
+  })();
+</script>
