@@ -21,6 +21,7 @@ const featured = projects.find((p) => p.featured) ?? projects[0];
       src={profile}
       alt="Mario Dias"
       width={128}
+      loading="eager"
       class="mb-5 h-16 w-16 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-zinc-800"
     />
     <p class="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-accent">{resume.tagline}</p>

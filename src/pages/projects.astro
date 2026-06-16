@@ -14,20 +14,24 @@ import { projects } from '../profile/projects';
       Things I've built, written, or published. Most have a GitHub repo or paper attached.
     </p>
 
-    <ul class="mt-12 space-y-6">
-      {projects.map((p) => (
-        <li>
-          <ProjectCard
-            title={p.title}
-            description={p.description}
-            year={p.year}
-            tags={p.tags}
-            links={p.links}
-            cover={p.cover}
-          />
-        </li>
-      ))}
-    </ul>
+    {projects.length === 0 ? (
+      <p class="mt-12 text-zinc-600 dark:text-zinc-400">Nothing here yet.</p>
+    ) : (
+      <ul class="mt-12 space-y-6">
+        {projects.map((p) => (
+          <li>
+            <ProjectCard
+              title={p.title}
+              description={p.description}
+              year={p.year}
+              tags={p.tags}
+              links={p.links}
+              cover={p.cover}
+            />
+          </li>
+        ))}
+      </ul>
+    )}
   </section>
 
   <section class="container-narrow pb-16">

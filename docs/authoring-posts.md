@@ -25,7 +25,7 @@ Use lowercase words separated by hyphens.
 Each post is its own folder with an `index.md` and every image it uses sitting
 right next to it:
 
-```
+```text
 src/content/blog/
   my-new-post/
     index.md
@@ -43,17 +43,15 @@ pipeline (resized, converted to WebP/AVIF, lazy-loaded, content-hashed) — you 
 
 Every post starts with a YAML frontmatter block. Full reference:
 
-| Field          | Required | Type            | Notes |
-| -------------- | -------- | --------------- | ----- |
-| `title`        | yes      | string          | Shown as the H1, page `<title>`, and OG image. |
-| `description`  | no       | string          | One-line deck. Used for `<meta description>`, OG/Twitter, and the listing row. Write one. |
-| `pubDate`      | yes      | date            | `YYYY-MM-DD`. Drives sort order and the year archive. |
-| `updatedDate`  | no       | date            | `YYYY-MM-DD`. Shows a "updated" note if newer than `pubDate`. |
-| `tags`         | no       | string[]        | Lowercase, hyphenated. Each becomes a `/tags/<tag>` archive. Defaults to `[]`. |
-| `draft`        | no       | boolean         | `true` hides the post everywhere (listing, tags, years, RSS). Defaults to `false`. |
-| `canonicalUrl` | no       | URL             | For cross-posted content. Renders `<link rel="canonical">` so search engines credit the original. |
-| `cover`        | no       | image           | Relative path to a sibling image (e.g. `./cover.webp`). Optimised by Astro and baked into the post's OG image. |
-| `coverAlt`     | no       | string          | Alt text for the cover. Set this whenever `cover` is set. |
+- **`title`** — string, **required**. Shown as the H1, the page `<title>`, and the OG image.
+- **`description`** — string, optional. One-line deck used for `<meta description>`, OG/Twitter, and the listing row. Write one.
+- **`pubDate`** — date, **required**. `YYYY-MM-DD`. Drives sort order and the year archive.
+- **`updatedDate`** — date, optional. `YYYY-MM-DD`. Shows an "updated" note when newer than `pubDate`.
+- **`tags`** — string array, optional (defaults to `[]`). Lowercase, hyphenated. Each becomes a `/tags/<tag>` archive.
+- **`draft`** — boolean, optional (defaults to `false`). `true` hides the post everywhere: listing, tags, years, and RSS.
+- **`canonicalUrl`** — URL, optional. For cross-posted content; renders `<link rel="canonical">` so search engines credit the original.
+- **`cover`** — image, optional. Relative path to a sibling image (e.g. `./cover.webp`). Optimised by Astro and baked into the post's OG image.
+- **`coverAlt`** — string, optional. Alt text for the cover. Set this whenever `cover` is set.
 
 Minimal:
 
@@ -87,15 +85,18 @@ coverAlt: "A blue transformer resembling Optimus Prime."
 Standard Markdown. A few specifics for this site:
 
 ### Headings
+
 Use `##` and `###` (the `#`/H1 comes from `title`, don't add your own). Every
 heading automatically gets an `id` and a hover anchor link, so headings are
 linkable as `/blog/my-post#my-heading`.
 
 ### Text and links
+
 `**bold**`, `*italic*`, `[link text](https://…)`, lists, and inline `` `code` ``
 all work as usual. In-prose links are accent-colored and underlined.
 
 ### Images and captions
+
 Reference images with a relative path. An **italic line immediately after an
 image becomes its caption** (centered, muted) — no blank line between them:
 
@@ -104,11 +105,16 @@ image becomes its caption** (centered, muted) — no blank line between them:
 *Figure 1. A caption, optionally with a [source link](https://…).*
 ```
 
+Write alt text that describes the subject directly, don't start with "Image
+of…" / "Photo of…" / "Diagram of…" (screen readers already announce it's an
+image, so those words are redundant and the a11y audit flags them).
+
 The cover (from frontmatter) is shown automatically at the top of the listing
 and in the OG image; if you also want it inline at the top of the article, add
 an explicit `![...](./cover.webp)` like the existing post does.
 
 ### Code blocks
+
 Fenced blocks are syntax-highlighted with Shiki (light/dark, follows the site
 theme) and get a copy button on hover. Always tag the language:
 
@@ -120,12 +126,16 @@ def attention(q, k, v):
 ````
 
 ### Blockquotes (two styles)
+
 1. A plain blockquote — thin left rule, muted:
+
    ```markdown
    > A normal aside or pulled-in note.
    ```
+
 2. A **pull quote** — large, centered display text — via the `:::pullquote`
    directive (powered by `remark-directive` + `src/plugins/remark-pullquote.mjs`):
+
    ```markdown
    :::pullquote
    Attention is all you need.
@@ -133,6 +143,7 @@ def attention(q, k, v):
    ```
 
 ### Video / animation
+
 Prefer MP4/WebM over GIF (typically ~10× smaller). Drop the file in the post
 folder and embed with raw HTML in the Markdown:
 
@@ -143,6 +154,7 @@ folder and embed with raw HTML in the Markdown:
 ```
 
 ### Cross-posting note
+
 When `canonicalUrl` points at a Medium original, the convention is to also open
 the body with a short pointer:
 
@@ -161,7 +173,7 @@ You don't need to wire any of these up:
 - **RSS** entry at `/rss.xml` and inclusion in the sitemap.
 - **OG / social preview image** at `/og/<slug>.png`, generated at build — if the
   post has a `cover` it's baked into a diagonal "swipe" layout, otherwise a plain
-  card with the title. See [authoring of OG images](../README.md#open-graph-images).
+  card with the title. See [Open Graph images](../README.md#open-graph-images).
 - **Canonical URL**: own page URL by default, or `canonicalUrl` when set.
 
 ## 6. Publish checklist

@@ -5,12 +5,12 @@ pubDate: 2023-06-11
 tags: ["transformers", "nlp", "deep-learning", "machine-learning", "data-science"]
 canonicalUrl: "https://medium.com/@itsmariodias/understanding-transformers-for-students-71a1cb362218"
 cover: "./cover.webp"
-coverAlt: "Image of a blue coloured transformer resembling Optimus Prime."
+coverAlt: "A blue coloured transformer resembling Optimus Prime."
 ---
 
 > Originally published on [Medium](https://medium.com/@itsmariodias/understanding-transformers-for-students-71a1cb362218).
 
-![Image of a blue coloured transformer resembling Optimus Prime.](./cover.webp)
+![A blue coloured transformer resembling Optimus Prime.](./cover.webp)
 *Photo by [Jéan Béller](https://unsplash.com/@chinatravelchannel) on [Unsplash](https://unsplash.com/)*
 
 A few months ago I was invited to give a presentation on the inner workings of Transformers to students from my alma mater. It’s amazing to see how with the advent of ChatGPT the world of Transformers has exploded into the public space. Having learnt these concepts back when I was a student myself, I was glad to share my knowledge with others and I decided it might be a good idea to share it with other students around the world as well. Without further ado, lets begin!
@@ -21,7 +21,7 @@ A bit of a history lesson before we dive into the topic at hand. Before Transfor
 
 ## Enter Transformers
 
-![Animated image of Optimus Prime from the Transformers cartoon show transforming into a truck with the caption "Autobots, roll out!"](./autobots-rollout.gif)
+![Optimus Prime from the Transformers cartoon transforming into a truck, captioned "Autobots, roll out!"](./autobots-rollout.gif)
 *Autobots, Roll Out!*
 
 In 2017, Vaswani et al. in a paper titled [Attention Is All You Need](https://arxiv.org/abs/1706.03762) introduced the concept of Transformers, a model architecture that relied entirely on the attention mechanism. By eliminating the need for RNNs, the model allowed for more parallelization during training, thus allowing it to reach state of the art results in a comparatively shorter amount of time compared to older RNNs. One of the key features introduced in this model was the concept of **self-attention** to model the representation of input sequences of data, which I’ll explain shortly.

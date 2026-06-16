@@ -12,21 +12,31 @@ export async function GET(context: APIContext) {
     years.add(p.data.pubDate.getFullYear());
   }
 
-  const paths = [
-    '/',
-    '/blog/',
-    '/projects/',
-    '/about/',
-    '/tags/',
-    '/years/',
-    ...posts.map((p) => `/blog/${p.slug}/`),
-    ...[...tags].map((t) => `/tags/${t}/`),
-    ...[...years].map((y) => `/years/${y}/`),
+  const iso = (d: Date) => d.toISOString().slice(0, 10);
+
+  const entries: { path: string; lastmod?: string }[] = [
+    { path: '/' },
+    { path: '/blog/' },
+    { path: '/projects/' },
+    { path: '/about/' },
+    { path: '/tags/' },
+    { path: '/years/' },
+    ...posts.map((p) => ({
+      path: `/blog/${p.slug}/`,
+      lastmod: iso(p.data.updatedDate ?? p.data.pubDate),
+    })),
+    ...[...tags].map((t) => ({ path: `/tags/${t}/` })),
+    ...[...years].map((y) => ({ path: `/years/${y}/` })),
   ];
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${paths.map((p) => `  <url><loc>${site}${p}</loc></url>`).join('\n')}
+${entries
+  .map(
+    (e) =>
+      `  <url><loc>${site}${e.path}</loc>${e.lastmod ? `<lastmod>${e.lastmod}</lastmod>` : ''}</url>`,
+  )
+  .join('\n')}
 </urlset>
 `;
 
