@@ -29,7 +29,7 @@ const { post, newer, older } = Astro.props;
 const { Content } = await post.render();
 const reading = readingTime(post.body);
 ---
-<BaseLayout title={`${post.data.title} · Mario Dias`} description={post.data.description} canonicalUrl={post.data.canonicalUrl}>
+<BaseLayout title={`${post.data.title} · Mario Dias`} description={post.data.description} canonicalUrl={post.data.canonicalUrl} ogImage={`/og/${post.slug}.png`}>
   <article class="container-narrow py-16">
     <header class="mb-10">
       <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Post</p>

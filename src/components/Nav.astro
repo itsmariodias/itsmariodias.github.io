@@ -1,5 +1,7 @@
 ---
+import { Image } from 'astro:assets';
 import ThemeToggle from './ThemeToggle.astro';
+import profile from '../assets/profile.png';
 const path = Astro.url.pathname;
 const isHome = path === '/';
 const isBlog = path.startsWith('/blog') || path.startsWith('/tags') || path.startsWith('/years');
@@ -29,7 +31,13 @@ const tabs = [
 ---
 <header class="sticky top-0 z-40 border-b border-zinc-200/60 bg-zinc-50/80 backdrop-blur dark:border-zinc-800/60 dark:bg-zinc-950/80">
   <div class="container-wide flex h-16 items-center justify-between">
-    <a href="/" class="font-display text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
+    <a href="/" class="flex items-center gap-2.5 font-display text-base font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-lg">
+      <Image
+        src={profile}
+        alt=""
+        width={72}
+        class="h-8 w-8 rounded-full object-cover ring-1 ring-white/10"
+      />
       Mario&nbsp;Dias
     </a>
     <nav class="flex items-center gap-4 sm:gap-8">
