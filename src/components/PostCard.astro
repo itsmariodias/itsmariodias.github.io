@@ -21,14 +21,12 @@ const { post } = Astro.props;
     />
   )}
   <div class="min-w-0 flex-1">
-    <div class="flex flex-wrap items-baseline justify-between gap-x-4">
-      <h3 class="font-display text-xl font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
-        {post.data.title}
-      </h3>
-      <time datetime={post.data.pubDate.toISOString()} class="text-sm text-zinc-500 dark:text-zinc-400">
-        {formatDate(post.data.pubDate)}
-      </time>
-    </div>
+    <time datetime={post.data.pubDate.toISOString()} class="block text-sm text-zinc-500 dark:text-zinc-400">
+      {formatDate(post.data.pubDate)}
+    </time>
+    <h3 class="mt-1 font-display text-xl font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
+      {post.data.title}
+    </h3>
     {post.data.description && (
       <p class="mt-2 text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
     )}
