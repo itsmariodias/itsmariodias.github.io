@@ -13,8 +13,8 @@ export default {
       },
       colors: {
         accent: {
-          DEFAULT: '#e8623d',
-          soft: '#f4a58d',
+          DEFAULT: '#e11d2b',
+          soft: '#f0727b',
         },
       },
       typography: ({ theme }) => ({
