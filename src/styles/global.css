@@ -37,8 +37,11 @@
    * Stays solid (no blink); JS removes the element after typing finishes. */
   .terminal-caret {
     display: inline-block;
+    width: 0.09em;
+    height: 1em;
     margin-left: 0.08em;
-    color: theme('colors.accent.DEFAULT');
+    vertical-align: -0.12em;
+    background-color: theme('colors.accent.DEFAULT');
   }
   @media (prefers-reduced-motion: reduce) {
     .terminal-caret {

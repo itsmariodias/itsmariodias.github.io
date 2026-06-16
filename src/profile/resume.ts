@@ -33,6 +33,11 @@ interface Social {
   handle?: string;
 }
 
+interface Interest {
+  icon: string;
+  label: string;
+}
+
 export const resume = {
   name: 'Mario Dias',
   tagline: 'AI & Software Engineer',
@@ -129,8 +134,15 @@ export const resume = {
     'Data & Cloud': ['Databricks', 'Apache Spark', 'Microsoft Azure', 'PostgreSQL'],
     Tools: ['Kubernetes', 'Power BI', 'GitLab CI/CD'],
   } satisfies Record<string, string[]>,
+  interests: [
+    { icon: 'home', label: 'Home Automation' },
+    { icon: 'printer', label: '3D Printing' },
+    { icon: 'gamepad', label: 'Video Games' },
+    { icon: 'bot', label: 'AI' },
+  ] satisfies Interest[],
   socials: [
     { label: 'GitHub', url: 'https://github.com/itsmariodias', handle: '@itsmariodias' },
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mario-dias/', handle: 'mario-dias' },
+    { label: 'Medium', url: 'https://itsmariodias.medium.com/', handle: '@itsmariodias' },
   ] satisfies Social[],
 };

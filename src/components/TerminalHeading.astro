@@ -5,7 +5,7 @@ interface Props {
 const { text } = Astro.props;
 ---
 <h1 class="font-display text-5xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-6xl">
-  <span class="terminal-typewriter" data-text={text}>{text}<span class="terminal-caret" aria-hidden="true">▍</span></span>
+  <span class="terminal-typewriter" data-text={text}>{text}<span class="terminal-caret" aria-hidden="true"></span></span>
 </h1>
 
 <script>
@@ -23,7 +23,6 @@ const { text } = Astro.props;
       const caret = document.createElement('span');
       caret.className = 'terminal-caret';
       caret.setAttribute('aria-hidden', 'true');
-      caret.textContent = '▍';
       el.appendChild(caret);
 
       let i = 0;
@@ -35,7 +34,9 @@ const { text } = Astro.props;
           const wait = /[,.!?:;]/.test(ch) ? punctMs : charMs;
           window.setTimeout(tick, wait);
         } else {
-          caret.remove();
+          // Keep the caret in the line box (hidden) so removing it doesn't
+          // shrink the heading's line height and nudge it up.
+          caret.style.visibility = 'hidden';
         }
       };
       tick();

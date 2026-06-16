@@ -7,6 +7,7 @@ import EducationList from '../components/resume/EducationList.astro';
 import Awards from '../components/resume/Awards.astro';
 import Certifications from '../components/resume/Certifications.astro';
 import Skills from '../components/resume/Skills.astro';
+import Interests from '../components/resume/Interests.astro';
 import Contact from '../components/resume/Contact.astro';
 
 const sections = [
@@ -15,6 +16,7 @@ const sections = [
   { id: 'education', label: 'Education' },
   { id: 'awards', label: 'Awards' },
   { id: 'certifications', label: 'Certifications' },
+  { id: 'interests', label: 'Interests' },
   { id: 'contact', label: 'Contact' },
 ];
 ---
@@ -61,7 +63,7 @@ const sections = [
     <Section id="experience" eyebrow="Experience" title="Where I've worked">
       <ExperienceList />
     </Section>
-    <Section id="skills" eyebrow="Stack" title="Technical skills">
+    <Section id="skills" eyebrow="Skills" title="What I'm good at">
       <Skills />
     </Section>
     <Section id="education" eyebrow="Education" title="What I studied">
@@ -72,6 +74,9 @@ const sections = [
     </Section>
     <Section id="certifications" eyebrow="Credentials" title="Certifications">
       <Certifications />
+    </Section>
+    <Section id="interests" eyebrow="Beyond work" title="Interests">
+      <Interests />
     </Section>
     <Section id="contact" eyebrow="Get in touch" title="Contact">
       <Contact />

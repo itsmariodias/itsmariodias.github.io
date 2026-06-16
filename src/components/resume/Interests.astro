@@ -1,0 +1,39 @@
+---
+import { resume } from '../../profile/resume';
+---
+<ul class="flex flex-wrap gap-2.5">
+  {resume.interests.map((i) => (
+    <li class="inline-flex items-center gap-2 rounded-full border border-zinc-200 px-4 py-2 text-sm text-zinc-700 dark:border-zinc-800 dark:text-zinc-300">
+      <svg class="h-4 w-4 text-zinc-500 dark:text-zinc-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        {i.icon === 'home' && (
+          <Fragment>
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+            <path d="M9 22V12h6v10" />
+          </Fragment>
+        )}
+        {i.icon === 'printer' && (
+          <Fragment>
+            <path d="M6 9V3a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v6" />
+            <path d="M6 18H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-1" />
+            <rect x="7" y="14" width="10" height="7" rx="1" />
+          </Fragment>
+        )}
+        {i.icon === 'gamepad' && (
+          <Fragment>
+            <path d="M6 12h4M8 10v4" />
+            <path d="M15 13h.01M18 11h.01" />
+            <path d="M17.32 5H6.68a4 4 0 0 0-3.978 3.59c-.006.052-.01.101-.017.152C2.604 9.416 2 14.456 2 16a3 3 0 0 0 3 3c1 0 1.5-.5 2-1l1.414-1.414A2 2 0 0 1 9.828 16h4.344a2 2 0 0 1 1.414.586L17 18c.5.5 1 1 2 1a3 3 0 0 0 3-3c0-1.544-.604-6.584-.685-7.258-.007-.05-.011-.1-.017-.151A4 4 0 0 0 17.32 5z" />
+          </Fragment>
+        )}
+        {i.icon === 'bot' && (
+          <Fragment>
+            <path d="M12 8V4H8" />
+            <rect x="4" y="8" width="16" height="12" rx="2" />
+            <path d="M2 14h2M20 14h2M15 13v2M9 13v2" />
+          </Fragment>
+        )}
+      </svg>
+      {i.label}
+    </li>
+  ))}
+</ul>

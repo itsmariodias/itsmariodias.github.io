@@ -61,31 +61,41 @@ export const GET: APIRoute = async ({ props }) => {
   let png: Buffer;
 
   if (coverPath) {
-    // Centered crop of the cover on the right, its left edge fading into the
-    // light background; text gets a clear left column.
-    const panelW = 460;
-    const panelLeft = W - panelW;
+    // Cover fills a wide diagonal "swipe" panel on the right; the seam leans so
+    // the cover opens up lower-right while the title keeps a clear left column.
+    const panelLeft = 480;
+    const panelW = W - panelLeft; // 720
+    const topX = 20; // seam x (panel-local) at the top edge
+    const botX = 420; // seam x (panel-local) at the bottom edge
     const panel = await sharp(coverPath)
       .resize(panelW, H, { fit: 'cover', position: 'center' })
       .ensureAlpha()
       .toBuffer();
-    const fadeMask = Buffer.from(`
+    // Fade the cover out along the diagonal: a gradient whose axis is the
+    // seam's normal, transparent on the seam and solid `feather`px into the image.
+    const mx = (topX + botX) / 2;
+    const my = H / 2;
+    const segLen = Math.hypot(botX - topX, H);
+    const nx = H / segLen; // unit normal pointing into the image (right of seam)
+    const ny = -(botX - topX) / segLen;
+    const feather = 200;
+    const diagMask = Buffer.from(`
 <svg width="${panelW}" height="${H}" xmlns="http://www.w3.org/2000/svg">
-  <linearGradient id="m" x1="0" y1="0" x2="1" y2="0">
-    <stop offset="0%" stop-color="#fff" stop-opacity="0"/>
-    <stop offset="45%" stop-color="#fff" stop-opacity="1"/>
+  <linearGradient id="m" gradientUnits="userSpaceOnUse" x1="${mx}" y1="${my}" x2="${mx + feather * nx}" y2="${my + feather * ny}">
+    <stop offset="0" stop-color="#fff" stop-opacity="0"/>
+    <stop offset="1" stop-color="#fff" stop-opacity="1"/>
   </linearGradient>
   <rect width="${panelW}" height="${H}" fill="url(#m)"/>
 </svg>`);
-    const fadedPanel = await sharp(panel)
-      .composite([{ input: fadeMask, blend: 'dest-in' }])
+    const cutPanel = await sharp(panel)
+      .composite([{ input: diagMask, blend: 'dest-in' }])
       .png()
       .toBuffer();
     const base = Buffer.from(`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg"><rect width="${W}" height="${H}" fill="${BG}"/></svg>`);
-    const fg = Buffer.from(`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">${foreground(title, panelLeft - 120)}</svg>`);
+    const fg = Buffer.from(`<svg width="${W}" height="${H}" xmlns="http://www.w3.org/2000/svg">${foreground(title, panelLeft + 70)}</svg>`);
     png = await sharp(base)
       .composite([
-        { input: fadedPanel, left: panelLeft, top: 0 },
+        { input: cutPanel, left: panelLeft, top: 0 },
         { input: fg, left: 0, top: 0 },
         { input: photo, left: 80, top: 108 - aD / 2 },
       ])
