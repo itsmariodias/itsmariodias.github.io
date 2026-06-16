@@ -234,7 +234,7 @@ class DataGenerator(tf.keras.utils.Sequence):
             np.random.shuffle(self.indices)
 ```
 
-The `__getitem__` method is called by the model during training. `idx` is the step number which can be used to provide different batches at each step during training (The number of steps is `(total number of input data) / (batch size))`. `on_epoch_end` is called at the end of an epoch (when all input data has been processed once) where we shuffle the data so that the batches formed in the next epoch don’t contain the same collection of data (prevents model from relying on the order of data for prediction).
+The `__getitem__` method is called by the model during training. `idx` is the step number which can be used to provide different batches at each step during training (The number of steps is `(total number of input data) / (batch size)`). `on_epoch_end` is called at the end of an epoch (when all input data has been processed once) where we shuffle the data so that the batches formed in the next epoch don’t contain the same collection of data (prevents model from relying on the order of data for prediction).
 
 > *Most of these features are provided as arguments in `model.fit()`. However I included this here so you can understand how to implement these features for more complex data loading scenarios (Like with multiple input sources).*
 
@@ -323,7 +323,7 @@ model = build_model("google/bert_uncased_L-12_H-512_A-8", 64, 0.5, 1, "sigmoid",
 model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(learning_rate=2e-5), metrics=["accuracy"])
 ```
 
-In our case, we’ll be using a smaller sized BERT model, which was introduced in [Well-Read Students Learn Better: On the Importance of Pre-training Compact Models](https://arxiv.org/abs/1908.08962). These models are smaller but still provide good performance while allowing us to train faster and being less memory intensive (You can view the different models available [here](https://github.com/google-research/bert/)). We use the sigmoid activation function so that the final output is between 0 and 1. For loss, we use **Binary Cross Entropy** since we are performing a classification task with only 2 categories. We use the **Adam** optimizer, which is a popular and reliable optimizer and set the learning rate to **2e-5**. We will also be using accuracy as a metric since we just need to compare if our output matches the target or not.
+In our case, we’ll be using a smaller sized BERT model, which was introduced in [Well-Read Students Learn Better: On the Importance of Pre-training Compact Models](https://arxiv.org/abs/1908.08962). These models are smaller but still provide good performance while allowing us to train faster and being less memory intensive (You can view the different models available [here](https://github.com/google-research/bert/)). We use the sigmoid activation function so that the final output is between 0 and 1. For loss, we use *Binary Cross Entropy* since we are performing a classification task with only 2 categories. We use the *Adam* optimizer, which is a popular and reliable optimizer and set the learning rate to *2e-5*. We will also be using accuracy as a metric since we just need to compare if our output matches the target or not.
 
 > *We use a smaller learning rate as we are fine-tuning BERT in our model. Larger learning rates on pre-trained models may perform worse since we might end up losing the already learned information the model has as it tries to adapt to the new set of data (a situation known as **overfitting**).*
 

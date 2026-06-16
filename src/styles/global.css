@@ -79,6 +79,29 @@
   text-underline-offset: 2px;
 }
 
+/* Same caption treatment for the italic line after a Mermaid diagram, which
+ * renders as <pre class="mermaid"> followed by <p><em>…</em></p>. */
+.prose pre.mermaid:has(+ p > em:only-child) {
+  margin-bottom: 0;
+}
+.prose pre.mermaid + p:has(> em:only-child) {
+  margin-top: 0.5em;
+  text-align: center;
+  font-size: 0.875em;
+  color: theme('colors.zinc.500');
+}
+.prose pre.mermaid + p:has(> em:only-child) em {
+  font-style: normal;
+}
+.dark .prose pre.mermaid + p:has(> em:only-child) {
+  color: theme('colors.zinc.400');
+}
+.prose pre.mermaid + p:has(> em:only-child) a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 /* Quotes: two Medium-style variants.
  * 1. Plain `> ...` blockquote: a thin left rule, muted, not italic.
  * 2. `:::pullquote ... :::` directive: large display text with a thick
