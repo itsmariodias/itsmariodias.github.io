@@ -1,8 +1,10 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
 import remarkDirective from 'remark-directive';
+import remarkMath from 'remark-math';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import rehypeKatex from 'rehype-katex';
 import remarkPullquote from './src/plugins/remark-pullquote.mjs';
 
 export default defineConfig({
@@ -17,7 +19,7 @@ export default defineConfig({
       },
       wrap: true,
     },
-    remarkPlugins: [remarkDirective, remarkPullquote],
+    remarkPlugins: [remarkDirective, remarkPullquote, remarkMath],
     rehypePlugins: [
       rehypeSlug,
       [
@@ -34,6 +36,7 @@ export default defineConfig({
           },
         },
       ],
+      rehypeKatex,
     ],
   },
 });

@@ -142,6 +142,21 @@ def attention(q, k, v):
    :::
    ```
 
+### Math
+
+LaTeX math is rendered at build with KaTeX (`remark-math` + `rehype-katex`) — no
+images. Use `$…$` for inline and `$$…$$` for display equations:
+
+```markdown
+Inline: the scaling factor is $\sqrt{d_k}$.
+
+$$
+\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+$$
+```
+
+Invalid LaTeX fails the build, so a green `npm run build` means every equation parsed.
+
 ### Video / animation
 
 Prefer MP4/WebM over GIF (typically ~10× smaller). Drop the file in the post

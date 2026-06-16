@@ -50,8 +50,12 @@ Before we can actually starting training our model, we need to convert our seque
 
 Because Transformers do not use RNNs, there is no sequential order for the model to make use of during computation, which when it comes to text is important in understanding how context travels. So instead we add a new set of encodings called **positional encodings** that represent the position of a token/word relative to the others in a given sequence of text. The formula the authors used to compute this is:
 
-![sine and cosine functions for computing the positional encodings.](./sine-cosine-functions.webp)
-*sine and cosine functions for computing the positional encodings.*
+$$
+\begin{aligned}
+PE_{(pos,\, 2i)} &= \sin\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right) \\[4pt]
+PE_{(pos,\, 2i+1)} &= \cos\!\left(\frac{pos}{10000^{2i/d_{\text{model}}}}\right)
+\end{aligned}
+$$
 
 I won’t go over this much, but basically the 2 functions above represent the position for even and odd position tokens and are interleaved together to get the overall positional encoding. The authors used this because they hypothesized that it would allow the model to easily learn to attend by relative positions due to the linear properties of the above functions.
 
@@ -78,8 +82,9 @@ If that sounds confusing, just remember that:
 
 Transformers introduced an attention mechanism called **Scaled Dot-Product Attention**. The equation for it given by:
 
-![Equation for Scaled Dot-Product Attention](./attention-equation.webp)
-*Equation for Scaled Dot-Product Attention*
+$$
+\text{Attention}(Q, K, V) = \text{softmax}\!\left(\frac{QK^\top}{\sqrt{d_k}}\right)V
+$$
 
 Where Q, K, V represent the query, key and value vectors. In most applications of Transformers, K and V are the same vector with Q being the input for which you require some answer. We compute the dot product of Q and K and divide it by √d where d is the dimension of the attention layer. We then take the softmax of this output, which is basically converting the output into probability scores which we then multiply with the value vector. This attention mechanism allows us to focus on the relevant parts of the value vector so they can be used in later computations.
 
@@ -97,10 +102,11 @@ Rather than perform a single attention, which would be expensive for larger dime
 
 At the end of an encoder/decoder block, we apply a **feed forward layer**. This is basically a multi-layer perceptron, with a ReLU (rectified linear unit) activation function (basically removes negative numbers from the vector setting them to zero instead) in-between the 2 fully connected layers and a dropout layer at the end. The inner fully connected layer has a dimensionality that is typically 4 times greater than the input / output dimension. The equation for this network is given as:
 
-![Equation for Feed Forward Networks](./feed-forward-network-equation.png)
-*Equation for Feed Forward Networks*
+$$
+\text{FFN}(x) = \max(0,\; xW_1 + b_1)\,W_2 + b_2
+$$
 
-Where the fully connected layer is represented as `F(x) = xW + b` where W is the weight and b is the bias. ReLU is represented as `ReLU(x) = max(0, x)`.
+Where the fully connected layer is represented as $F(x) = xW + b$ where W is the weight and b is the bias. ReLU is represented as $\text{ReLU}(x) = \max(0, x)$.
 
 ## Residual Connections and Normalization
 
