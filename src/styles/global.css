@@ -169,8 +169,10 @@ html.dark .prose :not(pre) > code {
   scroll-margin-top: 5rem;
 }
 
-/* Copy button injected into code blocks by src/components/CopyCode.astro */
-.prose pre.astro-code {
+/* Copy button injected into code blocks by src/components/CopyCode.astro. The
+ * script wraps each <pre> in .code-block so the button anchors here and stays
+ * pinned while the code scrolls horizontally. */
+.prose .code-block {
   position: relative;
 }
 .copy-code-btn {
@@ -190,7 +192,7 @@ html.dark .prose :not(pre) > code {
   opacity: 0;
   transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
 }
-.prose pre.astro-code:hover .copy-code-btn,
+.prose .code-block:hover .copy-code-btn,
 .copy-code-btn:focus-visible {
   opacity: 1;
 }
@@ -214,21 +216,51 @@ html.dark .prose :not(pre) > code {
   width: 0.9rem;
   height: 0.9rem;
 }
-/* Light-mode contrast tweak */
-html:not(.dark) .copy-code-btn {
-  border-color: rgba(0, 0, 0, 0.1);
-  background: rgba(255, 255, 255, 0.7);
-  color: rgba(0, 0, 0, 0.55);
+/* Light-mode contrast tweak: match the zinc-100 code block with a hairline so
+ * the button still reads as a chip. `:where()` keeps the theme prefix at zero
+ * specificity so the :hover / .copied / :focus-visible states still win. */
+:where(html:not(.dark)) .copy-code-btn {
+  border-color: theme('colors.zinc.300');
+  background: theme('colors.zinc.100');
+  color: theme('colors.zinc.500');
 }
 
-/* Shiki dual-theme: hide the dark variant by default, swap when html.dark is set */
-.astro-code,
-.astro-code span {
-  background-color: var(--shiki-light-bg) !important;
-  color: var(--shiki-light) !important;
+/* While the theme toggle flips the class, kill transitions so nothing animates
+ * from the old palette to the new one (set/removed by ThemeToggle.astro). */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+/* Mermaid diagrams (rendered client-side, see blog/[...slug].astro). Strip the
+ * default <pre> code styling and center the figure. Hidden until Mermaid has
+ * processed it so the raw source never flashes. */
+.prose pre.mermaid {
+  display: flex;
+  justify-content: center;
+  margin: 1.75rem 0;
+  padding: 0;
+  background: none;
+  border: 0;
+  overflow-x: auto;
+}
+.prose pre.mermaid:not([data-processed='true']) {
+  visibility: hidden;
+}
+
+/* Shiki dual-theme: the inline color/background on each token IS the light
+ * theme (github-light), so leave it untouched in light mode. Under html.dark,
+ * swap to the dark theme stored in the --shiki-dark* custom properties. */
+html.dark .astro-code {
+  background-color: var(--shiki-dark-bg) !important;
 }
 html.dark .astro-code,
 html.dark .astro-code span {
-  background-color: var(--shiki-dark-bg) !important;
   color: var(--shiki-dark) !important;
+}
+/* github-light defaults the block to pure #fff, which sits above the zinc-50
+ * page. Tint it to zinc-100 so the code reads as a panel inset from the page. */
+html:not(.dark) .prose pre.astro-code {
+  background-color: theme('colors.zinc.100') !important;
 }

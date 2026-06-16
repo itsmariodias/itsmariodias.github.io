@@ -4,8 +4,13 @@
   (() => {
     const blocks = document.querySelectorAll<HTMLPreElement>('.prose pre.astro-code');
     blocks.forEach((pre) => {
-      if (pre.querySelector('.copy-code-btn')) return;
-      pre.style.position ||= 'relative';
+      // Wrap the <pre> so the button anchors to a non-scrolling container and
+      // stays pinned to the right while the code scrolls horizontally.
+      if (pre.parentElement?.classList.contains('code-block')) return;
+      const wrapper = document.createElement('div');
+      wrapper.className = 'code-block';
+      pre.parentNode?.insertBefore(wrapper, pre);
+      wrapper.appendChild(pre);
 
       const btn = document.createElement('button');
       btn.type = 'button';
@@ -20,7 +25,7 @@
           <path d="M20 6 9 17l-5-5" />
         </svg>
       `;
-      pre.appendChild(btn);
+      wrapper.appendChild(btn);
 
       btn.addEventListener('click', async () => {
         const code = pre.querySelector('code');
@@ -38,6 +43,24 @@
           sel?.addRange(range);
         }
       });
+
+      // Make the block a focusable, named scrollable region only when it
+      // actually overflows, so keyboard users can arrow-scroll it (WCAG 2.1.1)
+      // without putting non-scrolling blocks in the tab order.
+      const updateScrollable = () => {
+        if (pre.scrollWidth > pre.clientWidth) {
+          pre.setAttribute('tabindex', '0');
+          pre.setAttribute('role', 'region');
+          const lang = pre.dataset.language;
+          pre.setAttribute('aria-label', lang ? `${lang} code, scrollable` : 'Code, scrollable');
+        } else {
+          pre.removeAttribute('tabindex');
+          pre.removeAttribute('role');
+          pre.removeAttribute('aria-label');
+        }
+      };
+      updateScrollable();
+      window.addEventListener('resize', updateScrollable);
     });
   })();
 </script>

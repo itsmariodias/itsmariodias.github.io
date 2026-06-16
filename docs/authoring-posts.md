@@ -157,6 +157,26 @@ $$
 
 Invalid LaTeX fails the build, so a green `npm run build` means every equation parsed.
 
+### Diagrams (Mermaid)
+
+Use a ` ```mermaid ` fenced block to author flowcharts, sequence diagrams, etc.
+in [Mermaid](https://mermaid.js.org/) syntax:
+
+````markdown
+```mermaid
+graph TD
+  A[Start] --> B{Works?}
+  B -->|yes| C[Ship]
+  B -->|no| D[Fix]
+```
+````
+
+Diagrams render in the browser (Mermaid is lazy-loaded only on posts that
+contain one) and re-render on the light/dark toggle so they always match the
+theme. The block is hidden until it has rendered, so the raw source never
+flashes. An invalid diagram won't break the build (it's client-side) — check the
+browser console if one doesn't appear.
+
 ### Video / animation
 
 Prefer MP4/WebM over GIF (typically ~10× smaller). Drop the file in the post

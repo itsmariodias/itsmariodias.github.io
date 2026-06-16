@@ -6,6 +6,7 @@ import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
 import remarkPullquote from './src/plugins/remark-pullquote.mjs';
+import remarkMermaid from './src/plugins/remark-mermaid.mjs';
 
 export default defineConfig({
   site: 'https://itsmariodias.github.io',
@@ -17,9 +18,18 @@ export default defineConfig({
         light: 'github-light',
         dark: 'github-dark',
       },
-      wrap: true,
+      wrap: false,
+      // Astro adds tabindex="0" to <pre> for keyboard scroll; the a11y audit
+      // flags it on a non-interactive element, so strip it.
+      transformers: [
+        {
+          pre(node) {
+            delete node.properties.tabindex;
+          },
+        },
+      ],
     },
-    remarkPlugins: [remarkDirective, remarkPullquote, remarkMath],
+    remarkPlugins: [remarkDirective, remarkPullquote, remarkMermaid, remarkMath],
     rehypePlugins: [
       rehypeSlug,
       [

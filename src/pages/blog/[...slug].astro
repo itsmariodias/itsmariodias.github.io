@@ -87,4 +87,47 @@ const reading = readingTime(post.body);
       <a href="/blog/" class="text-accent hover:underline">← Back to blog</a>
     </p>
   </article>
+
+  <script>
+    // Client-side Mermaid: only loads the runtime on posts that contain a
+    // diagram, and re-renders on light/dark toggle so it matches the theme.
+    const blocks = Array.from(document.querySelectorAll<HTMLElement>('pre.mermaid'));
+    if (blocks.length) {
+      // Preserve the source so we can re-render from it on theme changes.
+      blocks.forEach((el) => (el.dataset.src = el.textContent ?? ''));
+
+      let rendering = false;
+      const render = async () => {
+        if (rendering) return;
+        rendering = true;
+        try {
+          const { default: mermaid } = await import('mermaid');
+          const dark = document.documentElement.classList.contains('dark');
+          mermaid.initialize({ startOnLoad: false, theme: dark ? 'dark' : 'default' });
+          blocks.forEach((el) => {
+            el.removeAttribute('data-processed');
+            el.innerHTML = el.dataset.src ?? '';
+          });
+          await mermaid.run({ nodes: blocks });
+        } catch (err) {
+          console.error('[mermaid] render failed', err);
+          blocks.forEach((el) => (el.style.visibility = 'visible'));
+        } finally {
+          rendering = false;
+        }
+      };
+
+      render();
+
+      // Re-render when the theme toggle flips the `dark` class on <html>.
+      let isDark = document.documentElement.classList.contains('dark');
+      new MutationObserver(() => {
+        const nowDark = document.documentElement.classList.contains('dark');
+        if (nowDark !== isDark) {
+          isDark = nowDark;
+          render();
+        }
+      }).observe(document.documentElement, { attributes: true, attributeFilter: ['class'] });
+    }
+  </script>
 </BaseLayout>
