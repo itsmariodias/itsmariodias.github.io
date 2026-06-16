@@ -2,10 +2,10 @@
 import { getCollection } from 'astro:content';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import PostCard from '../components/PostCard.astro';
 import TerminalHeading from '../components/TerminalHeading.astro';
 import { resume } from '../profile/resume';
 import { projects } from '../profile/projects';
-import { formatDate } from '../utils/formatDate';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -47,18 +47,8 @@ const featured = projects.find((p) => p.featured) ?? projects[0];
     ) : (
       <ul class="mt-8 divide-y divide-zinc-200 dark:divide-zinc-800">
         {posts.map((post) => (
-          <li class="py-5">
-            <a href={`/blog/${post.slug}/`} class="group block">
-              <div class="flex flex-wrap items-baseline justify-between gap-x-4">
-                <h3 class="font-display text-lg font-semibold tracking-tight text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
-                  {post.data.title}
-                </h3>
-                <time class="text-sm text-zinc-500 dark:text-zinc-400">{formatDate(post.data.pubDate)}</time>
-              </div>
-              {post.data.description && (
-                <p class="mt-1 line-clamp-2 text-sm text-zinc-600 dark:text-zinc-400">{post.data.description}</p>
-              )}
-            </a>
+          <li class="py-6">
+            <PostCard post={post} />
           </li>
         ))}
       </ul>

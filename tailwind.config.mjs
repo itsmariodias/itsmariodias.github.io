@@ -20,7 +20,7 @@ export default {
       typography: ({ theme }) => ({
         DEFAULT: {
           css: {
-            '--tw-prose-body': theme('colors.zinc.700'),
+            '--tw-prose-body': theme('colors.zinc.900'),
             '--tw-prose-headings': theme('colors.zinc.900'),
             '--tw-prose-links': theme('colors.accent.DEFAULT'),
             '--tw-prose-bold': theme('colors.zinc.900'),

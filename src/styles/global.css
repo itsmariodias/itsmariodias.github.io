@@ -13,7 +13,7 @@
     scroll-behavior: smooth;
   }
   body {
-    @apply bg-zinc-50 text-zinc-800 antialiased;
+    @apply bg-zinc-50 text-zinc-900 antialiased;
     font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11', 'ss01', 'ss03';
     letter-spacing: -0.011em;
   }
@@ -45,6 +45,105 @@
       display: none;
     }
   }
+}
+
+/* Center images in blog posts. The typography plugin gives them
+ * vertical spacing but leaves horizontal alignment to default. */
+.prose img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Caption pattern: italic text immediately after an image.
+ * Kill the image's prose bottom margin so the caption sits close. */
+.prose img:has(+ em) {
+  margin-bottom: 0;
+}
+.prose img + em {
+  display: block;
+  margin-top: 0.5em;
+  text-align: center;
+  font-size: 0.875em;
+  font-style: normal;
+  color: theme('colors.zinc.500');
+}
+.dark .prose img + em {
+  color: theme('colors.zinc.400');
+}
+.prose img + em a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Quotes: two Medium-style variants.
+ * 1. Plain `> ...` blockquote: a thin left rule, muted, not italic.
+ * 2. `:::pullquote ... :::` directive: large display text with a thick
+ *    accent bar, used to highlight a key line. */
+.prose blockquote {
+  font-style: normal;
+  font-weight: 400;
+  border-left-width: 3px;
+  border-left-color: theme('colors.zinc.300');
+  color: theme('colors.zinc.600');
+}
+html.dark .prose blockquote {
+  border-left-color: theme('colors.zinc.700');
+  color: theme('colors.zinc.400');
+}
+/* The typography plugin adds “smart” quote marks around blockquote text;
+ * drop them for a cleaner Medium look. */
+.prose blockquote p::before,
+.prose blockquote p::after {
+  content: none;
+}
+
+.prose blockquote.pullquote {
+  border-left: 0;
+  padding-left: 0;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  text-align: left;
+  max-width: 36rem;
+  margin-left: auto;
+  margin-right: auto;
+  font-family: theme('fontFamily.display', inherit);
+  font-size: 1.6em;
+  line-height: 1.35;
+  font-weight: 400;
+  color: theme('colors.zinc.500');
+}
+html.dark .prose blockquote.pullquote {
+  color: theme('colors.zinc.400');
+}
+.prose blockquote.pullquote p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* Links inside any quote take the muted quote color, not the accent,
+ * staying underlined so they read as links. */
+.prose blockquote a {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+/* Inline code: GitHub-style pill instead of the typography plugin's
+ * default monospace-with-literal-backticks. Block code (pre > code) is
+ * handled by Shiki separately. */
+.prose :not(pre) > code {
+  background: theme('colors.zinc.100');
+  padding: 0.15em 0.4em;
+  border-radius: 0.3rem;
+  font-weight: 500;
+  font-size: 0.875em;
+}
+.prose :not(pre) > code::before,
+.prose :not(pre) > code::after {
+  content: none;
+}
+html.dark .prose :not(pre) > code {
+  background: theme('colors.zinc.800');
 }
 
 /* Heading anchors injected by rehype-autolink-headings. */

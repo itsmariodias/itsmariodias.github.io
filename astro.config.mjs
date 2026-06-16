@@ -1,7 +1,9 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import remarkDirective from 'remark-directive';
 import rehypeSlug from 'rehype-slug';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
+import remarkPullquote from './src/plugins/remark-pullquote.mjs';
 
 export default defineConfig({
   site: 'https://itsmariodias.github.io',
@@ -15,6 +17,7 @@ export default defineConfig({
       },
       wrap: true,
     },
+    remarkPlugins: [remarkDirective, remarkPullquote],
     rehypePlugins: [
       rehypeSlug,
       [
