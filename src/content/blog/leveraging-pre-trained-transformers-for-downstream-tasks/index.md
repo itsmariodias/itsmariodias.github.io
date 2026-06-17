@@ -4,13 +4,13 @@ description: "Learn how to develop your own deep learning models using BERT."
 pubDate: 2023-06-17
 tags: ["transformers", "nlp", "deep-learning", "machine-learning", "data-science"]
 canonicalUrl: "https://medium.com/@itsmariodias/leveraging-pre-trained-transformers-for-downstream-tasks-4e234656ca96"
-cover: "./cover.webp"
+cover: "./cover.jpg"
 coverAlt: "A blue coloured rusted transformer resembling Optimus Prime."
 ---
 
 > Originally published on [Medium](https://medium.com/@itsmariodias/leveraging-pre-trained-transformers-for-downstream-tasks-4e234656ca96).
 
-![A blue coloured rustedtransformer resembling Optimus Prime.](./cover.webp)
+![A blue coloured rustedtransformer resembling Optimus Prime.](./cover.jpg)
 *Photo by [Jéan Béller](https://unsplash.com/@chinatravelchannel) on [Unsplash](https://unsplash.com/)*
 
 Following up on my [last post](./understanding-transformers-for-students) where I explained how the Transformer model works, this post will showcase how you can leverage the power of Transformer models in your own projects and tasks without having to go through the effort of training a large model from scratch. In this case, we’ll be using BERT for performing sentiment analysis on Twitter tweets.
@@ -22,7 +22,7 @@ Following up on my [last post](./understanding-transformers-for-students) where 
 
 Bidirectional Encoder Representations from Transformers, or BERT is a transformer model introduced by Jacob Devlin, Ming-Wei Chang, Kenton Lee and Kristina Toutanova in their paper [BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding](https://arxiv.org/abs/1810.04805). This model is a variation of the Transformer model which uses only the encoder from the original model. This way the model can be used to provide contextual representations of input sentences.
 
-![BERT’s model architecture](./bert-model-architecture.webp)
+![BERT’s model architecture](./bert-model-architecture.png)
 *BERT’s model architecture ([Source](https://arxiv.org/abs/1810.04805))*
 
 BERT is considered a pre-trained model because the authors trained the model on a large corpus of English data in a self-supervised fashion. This means it wasn’t trained with any particular use case in mind, which gave the advantage of being able to feed lots of public data to the model (This is pretty much what all current Transformer-based models do, like ChatGPT for example). However, we still need an objective while training, else the model won’t actually learn anything useful. For BERT, the authors trained the model on 2 objectives:
@@ -35,14 +35,14 @@ Once the model is trained on the above 2 tasks and achieves optimal performance,
 
 ## Sentiment Analysis:
 
-![Emojis representing different sentiments.](./emoji-mobile.webp)
+![Emojis representing different sentiments.](./emoji-mobile.jpg)
 *Photo by [Denis Cherkashin](https://unsplash.com/@denic) on [Unsplash](https://unsplash.com/)*
 
 So for this article, we will be using a pre-trained model of BERT to perform sentiment analysis on Twitter tweets. Sentiment analysis essentially means to gather the sentiments on a particular topic by observing related tweets on the same. For example, if I say *“The weather is good today”* we can say that the sentiment of the sentence is positive. This task can be useful if we wish to understand public reception to a particular event or situation. For example, if Apple wants to see how people are reacting to their newly launched Apple Vision Pro, they can extract the sentiments from tweets about the product on Twitter.
 
 ## Time to Code!
 
-![Python code on a laptop screen.](code-laptop.webp)
+![Python code on a laptop screen.](code-laptop.jpg)
 *Photo by [Chris Ried](https://unsplash.com/@cdr6934) on [Unsplash](https://unsplash.com/)*
 
 Now let’s get on with actually implementing our model. We’ll be using Python and TensorFlow for training the model. We’ll also be leveraging the [HuggingFace Transformers library](https://huggingface.co/docs/transformers/index) to provide us with the necessary tools to load and train the BERT model. Because these models are large and not everyone has a GPU or a decent PC to train them, we will be running our code on [Google Colab](https://colab.research.google.com/), an online platform for executing and running Python-based code with free to use GPUs.
@@ -438,10 +438,10 @@ plot_metric_graph(log, metric='loss', show_val=True)
 plot_metric_graph(log, metric='accuracy', show_val=True)
 ```
 
-![Model Loss Graph](./model-loss.webp "bg")
+![Model Loss Graph](./model-loss.png "bg")
 *Model Loss Graph*
 
-![Model Accuracy Graph](./model-accuracy.webp "bg")
+![Model Accuracy Graph](./model-accuracy.png "bg")
 *Model Accuracy Graph*
 
 Of course we only ran our model for 4 epochs, so this isn’t really useful. If we could log for every step instead, it might give us a better overview (if anyone knows how to do this in TensorFlow, please let me know!).
