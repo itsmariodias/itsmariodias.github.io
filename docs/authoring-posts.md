@@ -109,6 +109,17 @@ Write alt text that describes the subject directly, don't start with "Image
 of…" / "Photo of…" / "Diagram of…" (screen readers already announce it's an
 image, so those words are redundant and the a11y audit flags them).
 
+For a **transparent image** (e.g. a diagram with dark lines and no background)
+that would be unreadable in dark mode, give it a `"bg"` title to render it on a
+padded white card:
+
+```markdown
+![A model architecture diagram](./architecture.png "bg")
+```
+
+The `"bg"` marker is consumed (it won't show as a tooltip); styling lives in
+`.prose img.img-bg` via `src/plugins/rehype-image-bg.mjs`.
+
 The cover (from frontmatter) is shown automatically at the top of the listing
 and in the OG image; if you also want it inline at the top of the article, add
 an explicit `![...](./cover.webp)` like the existing post does.
@@ -141,6 +152,11 @@ def attention(q, k, v):
    Attention is all you need.
    :::
    ```
+
+> Gotcha: because `remark-directive` is enabled, a colon directly followed by a
+> word/number in prose (e.g. `80:10:10`, `note:something`) is parsed as an inline
+> directive and can break the text. Escape the colons (`80\:10\:10`) or wrap the
+> value in inline code (`` `80:10:10` ``).
 
 ### Math
 

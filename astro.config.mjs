@@ -7,6 +7,7 @@ import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypeKatex from 'rehype-katex';
 import remarkPullquote from './src/plugins/remark-pullquote.mjs';
 import remarkMermaid from './src/plugins/remark-mermaid.mjs';
+import rehypeImageBg from './src/plugins/rehype-image-bg.mjs';
 
 export default defineConfig({
   site: 'https://itsmariodias.github.io',
@@ -47,6 +48,7 @@ export default defineConfig({
         },
       ],
       rehypeKatex,
+      rehypeImageBg,
     ],
   },
 });

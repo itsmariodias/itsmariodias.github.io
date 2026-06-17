@@ -127,7 +127,7 @@ X = data["text"]
 Y = data["target"].replace({4:1})
 ```
 
-For training, we will split the above dataset into an 80:10:10 split representing the training, validation and testing data.
+For training, we will split the above dataset into an 80\:10\:10 split representing the training, validation and testing data.
 
 ```python
 # We create a 80:10:10 split for train, val and test
@@ -438,10 +438,10 @@ plot_metric_graph(log, metric='loss', show_val=True)
 plot_metric_graph(log, metric='accuracy', show_val=True)
 ```
 
-![Model Loss Graph](./model-loss.webp)
+![Model Loss Graph](./model-loss.webp "bg")
 *Model Loss Graph*
 
-![Model Accuracy Graph](./model-accuracy.webp)
+![Model Accuracy Graph](./model-accuracy.webp "bg")
 *Model Accuracy Graph*
 
 Of course we only ran our model for 4 epochs, so this isn’t really useful. If we could log for every step instead, it might give us a better overview (if anyone knows how to do this in TensorFlow, please let me know!).
