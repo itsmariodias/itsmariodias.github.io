@@ -154,6 +154,16 @@ html.dark .prose blockquote.pullquote {
   text-underline-offset: 2px;
 }
 
+/* JetBrains Mono ligates operators like != == => -> into single glyphs.
+ * Disable ligatures so code reads exactly as written. */
+.prose code,
+.prose pre,
+.astro-code,
+.astro-code span {
+  font-variant-ligatures: none;
+  font-feature-settings: 'liga' 0, 'calt' 0;
+}
+
 /* Inline code: GitHub-style pill instead of the typography plugin's
  * default monospace-with-literal-backticks. Block code (pre > code) is
  * handled by Shiki separately. */

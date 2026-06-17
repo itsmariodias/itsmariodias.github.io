@@ -401,17 +401,17 @@ We train the model for 4 epochs, since we are just fine-tuning the BERT model. B
 
 ```text
 Epoch 1/4
-  200/200 [==============================] - 171s 775ms/step - loss: 0.5078 - accuracy: 0.7505 - val_loss: 0.3797 - val_accuracy: 0.8294
-  Epoch 2/4
-  199/200 [============================>.] - ETA: 0s - loss: 0.3491 - accuracy: 0.8533
-  Epoch 2: saving model to /content/drive/MyDrive/Transformer Demo
-  200/200 [==============================] - 188s 939ms/step - loss: 0.3492 - accuracy: 0.8530 - val_loss: 0.4229 - val_accuracy: 0.8300
-  Epoch 3/4
-  200/200 [==============================] - 155s 777ms/step - loss: 0.2387 - accuracy: 0.9062 - val_loss: 0.4718 - val_accuracy: 0.8294
-  Epoch 4/4
-  199/200 [============================>.] - ETA: 0s - loss: 0.1385 - accuracy: 0.9485
-  Epoch 4: saving model to /content/drive/MyDrive/Transformer Demo
-  200/200 [==============================] - 187s 937ms/step - loss: 0.1389 - accuracy: 0.9485 - val_loss: 0.6074 - val_accuracy: 0.8156
+200/200 [==============================] - 171s 775ms/step - loss: 0.5078 - accuracy: 0.7505 - val_loss: 0.3797 - val_accuracy: 0.8294
+Epoch 2/4
+199/200 [============================>.] - ETA: 0s - loss: 0.3491 - accuracy: 0.8533
+Epoch 2: saving model to /content/drive/MyDrive/Transformer Demo
+200/200 [==============================] - 188s 939ms/step - loss: 0.3492 - accuracy: 0.8530 - val_loss: 0.4229 - val_accuracy: 0.8300
+Epoch 3/4
+200/200 [==============================] - 155s 777ms/step - loss: 0.2387 - accuracy: 0.9062 - val_loss: 0.4718 - val_accuracy: 0.8294
+Epoch 4/4
+199/200 [============================>.] - ETA: 0s - loss: 0.1385 - accuracy: 0.9485
+Epoch 4: saving model to /content/drive/MyDrive/Transformer Demo
+200/200 [==============================] - 187s 937ms/step - loss: 0.1389 - accuracy: 0.9485 - val_loss: 0.6074 - val_accuracy: 0.8156
 ```
 
 Not bad, but I guess performance should be better if we provide more data. Do let me know what your accuracy ends up looking like if you train the entire dataset, as I guess it should be above 85%.
