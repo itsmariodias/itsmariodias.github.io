@@ -105,13 +105,13 @@ This practical assumes you have a bare-bones Spring Web (or WebFlux) application
 
 As mentioned in the beginning, Azure has developed a library to integrate Event Hubs with Spring Cloud Stream. Using *Gradle*, we can add this library in our `build.gradle` using the following code:
 
-```gradle
+```groovy
 implementation 'com.azure.spring:spring-cloud-azure-stream-binder-eventhubs'
 ```
 
 Also its recommended to ensure your Spring Boot version **matches** with the appropriate Azure dependencies (refer the table [here](https://github.com/Azure/azure-sdk-for-java/wiki/Spring-Versions-Mapping)). We can ensure this using a `mavenBom` as follows:
 
-```gradle
+```groovy
 dependencyManagement {
  imports {
   mavenBom 'org.springframework.cloud:spring-cloud-dependencies:2021.0.5'
