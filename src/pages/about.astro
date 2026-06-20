@@ -8,6 +8,7 @@ import Awards from '../components/resume/Awards.astro';
 import Certifications from '../components/resume/Certifications.astro';
 import Skills from '../components/resume/Skills.astro';
 import Interests from '../components/resume/Interests.astro';
+import Languages from '../components/resume/Languages.astro';
 import Contact from '../components/resume/Contact.astro';
 
 const sections = [
@@ -17,6 +18,7 @@ const sections = [
   { id: 'awards', label: 'Awards' },
   { id: 'certifications', label: 'Certifications' },
   { id: 'interests', label: 'Interests' },
+  { id: 'languages', label: 'Languages' },
   { id: 'contact', label: 'Contact' },
 ];
 ---
@@ -78,43 +80,20 @@ const sections = [
     <Section id="interests" eyebrow="Beyond work" title="Interests">
       <Interests />
     </Section>
+    <Section id="languages" eyebrow="Languages" title="Languages I speak">
+      <Languages />
+    </Section>
     <Section id="contact" eyebrow="Get in touch" title="Contact">
       <Contact />
     </Section>
   </div>
 
   <script>
-    (() => {
-      const links = Array.from(
-        document.querySelectorAll<HTMLAnchorElement>('a[data-section-link]'),
-      );
-      if (!links.length) return;
-      const byId = new Map<string, HTMLAnchorElement>();
-      links.forEach((link) => byId.set(link.dataset.sectionLink ?? '', link));
-
-      const setActive = (id: string | null) => {
-        links.forEach((link) => {
-          const isActive = link.dataset.sectionLink === id;
-          link.classList.toggle('text-accent', isActive);
-          link.classList.toggle('font-medium', isActive);
-          link.classList.toggle('text-zinc-600', !isActive);
-          link.classList.toggle('dark:text-zinc-400', !isActive);
-        });
-      };
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((e) => e.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-          if (visible) setActive(visible.target.id);
-        },
-        { rootMargin: '-30% 0px -55% 0px', threshold: 0 },
-      );
-      byId.forEach((_, id) => {
-        const el = document.getElementById(id);
-        if (el) observer.observe(el);
-      });
-    })();
+    import { initScrollSpy } from '../utils/scrollspy';
+    initScrollSpy({
+      linkSelector: 'a[data-section-link]',
+      activeClasses: ['text-accent', 'font-medium'],
+      inactiveClasses: ['text-zinc-600', 'dark:text-zinc-400'],
+    });
   </script>
 </BaseLayout>

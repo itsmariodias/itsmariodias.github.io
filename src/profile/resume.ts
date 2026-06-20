@@ -39,6 +39,11 @@ interface Interest {
   label: string;
 }
 
+interface Language {
+  name: string;
+  proficiency: string;
+}
+
 export const resume = {
   name: 'Mario Dias',
   tagline: 'AI & Software Engineer',
@@ -143,6 +148,11 @@ export const resume = {
     { icon: 'gamepad', label: 'Video Games' },
     { icon: 'bot', label: 'AI' },
   ] satisfies Interest[],
+  languages: [
+    { name: 'English', proficiency: 'Native or bilingual proficiency' },
+    { name: 'Hindi', proficiency: 'Professional working proficiency' },
+    { name: 'Marathi', proficiency: 'Limited working proficiency' },
+  ] satisfies Language[],
   socials: [
     { label: 'GitHub', url: 'https://github.com/itsmariodias', handle: '@itsmariodias' },
     { label: 'LinkedIn', url: 'https://www.linkedin.com/in/mario-dias/', handle: 'mario-dias' },

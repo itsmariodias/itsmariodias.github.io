@@ -78,35 +78,11 @@ const years = [...groups.keys()].sort((a, b) => b - a);
   </div>
 
   <script>
-    (() => {
-      const links = Array.from(
-        document.querySelectorAll<HTMLAnchorElement>('a[data-section-link^="y-"]'),
-      );
-      if (!links.length) return;
-
-      const setActive = (id: string | null) => {
-        links.forEach((link) => {
-          const isActive = link.dataset.sectionLink === id;
-          link.classList.toggle('text-accent', isActive);
-          link.classList.toggle('text-zinc-600', !isActive);
-          link.classList.toggle('dark:text-zinc-400', !isActive);
-        });
-      };
-
-      const observer = new IntersectionObserver(
-        (entries) => {
-          const visible = entries
-            .filter((e) => e.isIntersecting)
-            .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
-          if (visible) setActive(visible.target.id);
-        },
-        { rootMargin: '-30% 0px -55% 0px', threshold: 0 },
-      );
-      links.forEach((link) => {
-        const id = link.dataset.sectionLink ?? '';
-        const el = document.getElementById(id);
-        if (el) observer.observe(el);
-      });
-    })();
+    import { initScrollSpy } from '../../utils/scrollspy';
+    initScrollSpy({
+      linkSelector: 'a[data-section-link^="y-"]',
+      activeClasses: ['text-accent'],
+      inactiveClasses: ['text-zinc-600', 'dark:text-zinc-400'],
+    });
   </script>
 </BaseLayout>

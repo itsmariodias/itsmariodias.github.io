@@ -15,7 +15,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .slice(0, 3);
 
 const featuredProjects = projects.filter((p) => p.featured);
-const featured = (featuredProjects.length ? featuredProjects : projects).slice(0, 3);
+const featured = [...(featuredProjects.length ? featuredProjects : projects)]
+  .sort((a, b) => (b.year ?? '').localeCompare(a.year ?? ''))
+  .slice(0, 3);
 const featuredPublications = publications.filter((p) => p.featured).slice(0, 3);
 ---
 <BaseLayout title="Mario Dias">

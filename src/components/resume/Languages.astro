@@ -1,0 +1,12 @@
+---
+import { resume } from '../../profile/resume';
+---
+<ul class="flex flex-wrap gap-2.5">
+  {resume.languages.map((l) => (
+    <li class="inline-flex items-baseline gap-1.5 rounded-full border border-zinc-200 px-4 py-2 text-sm dark:border-zinc-800">
+      <span class="font-medium text-zinc-900 dark:text-zinc-50">{l.name}</span>
+      <span class="text-zinc-400 dark:text-zinc-500" aria-hidden="true">·</span>
+      <span class="text-zinc-500 dark:text-zinc-400">{l.proficiency}</span>
+    </li>
+  ))}
+</ul>
