@@ -18,6 +18,7 @@ interface Certification {
   title: string;
   issuer: string;
   year: string;
+  url?: string;
 }
 
 interface Award {
@@ -86,23 +87,23 @@ export const resume = {
   ] satisfies Experience[],
   education: [
     {
-      qualification: 'B.E. Computer Engineering',
+      qualification: 'Bachelor of Engineering in Computer Engineering',
       institution: 'Fr. Conceicao Rodrigues College of Engineering, Mumbai',
       affiliation: 'University of Mumbai',
       period: '2018 – 2022',
       result: 'CGPA 9.74 / 10',
     },
     {
-      qualification: 'HSC (Science)',
+      qualification: 'Higher Secondary Certificate',
       institution: 'Thomas Baptista Junior College, Vasai',
-      affiliation: 'Maharashtra State Board',
+      affiliation: 'Maharashtra State Board of Secondary and Higher Secondary Education',
       period: '2016 – 2018',
       result: '94.92%',
     },
     {
-      qualification: 'SSC',
+      qualification: 'Secondary School Certificate',
       institution: 'Notre Dame High School, Vasai',
-      affiliation: 'CBSE',
+      affiliation: 'Central Board of Secondary Education (CBSE)',
       period: '2016',
       result: 'CGPA 10.0 / 10',
     },
@@ -117,22 +118,24 @@ export const resume = {
       title: 'Top 6, AI for Healthcare Hackathon',
       issuer: 'DERBI Foundation',
       year: '2021',
-      note: 'Deep Learning Multiple Diseases Prediction Model based on Retina Image',
+      note: 'Theme: Deep Learning Multiple Diseases Prediction Model based on Retina Image',
     },
   ] satisfies Award[],
   certifications: [
-    { title: 'Azure AI Engineer Associate', issuer: 'Microsoft', year: '2026' },
-    { title: 'Azure AI Fundamentals', issuer: 'Microsoft', year: '2024' },
-    { title: 'Power BI Data Analyst Associate', issuer: 'Microsoft', year: '2024' },
-    { title: 'Microsoft Azure Fundamentals', issuer: 'Microsoft', year: '2023' },
-    { title: 'Deep Learning Specialization', issuer: 'DeepLearning.AI (Coursera)', year: '2020' },
+    { title: 'Agentic AI', issuer: 'DeepLearning.AI', year: '2026', url: 'https://learn.deeplearning.ai/certificates/16db5331-7a08-41d2-950e-19bfb5ca1870' },
+    { title: 'Azure AI Engineer Associate', issuer: 'Microsoft', year: '2026', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/a7c8c4b36201ecd8' },
+    { title: 'UBS Certified Gold Engineer', issuer: 'UBS', year: '2025', url: 'https://www.credly.com/badges/ddb8b2ea-362c-47c7-b529-49f22ac2a681'},
+    { title: 'Azure AI Fundamentals', issuer: 'Microsoft', year: '2024', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/390e31d18b3c2009' },
+    { title: 'Power BI Data Analyst Associate', issuer: 'Microsoft', year: '2024', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/c51accc8f931fe67' },
+    { title: 'Azure Fundamentals', issuer: 'Microsoft', year: '2023', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/ef9d19ba120cc9eb' },
+    { title: 'Deep Learning Specialization', issuer: 'DeepLearning.AI', year: '2020', url: 'https://www.coursera.org/account/accomplishments/specialization/NYHFDZ3YFQGR' },
   ] satisfies Certification[],
   skills: {
     Programming: ['Python', 'Java'],
-    'AI / ML': ['Generative AI', 'NLP', 'Agentic AI', 'Forecasting', 'Anomaly Detection'],
+    'AI / ML': ['Generative AI', 'NLP', 'Agentic AI', 'Forecasting', 'Anomaly Detection', 'Retrieval-Augmented Generation (RAG)'],
     Frameworks: ['LangChain', 'LangGraph', 'FastAPI', 'Spring Framework'],
     'Data & Cloud': ['Databricks', 'Apache Spark', 'Microsoft Azure', 'PostgreSQL'],
-    Tools: ['Kubernetes', 'Power BI', 'GitLab CI/CD'],
+    Tools: ['Kubernetes', 'Power BI', 'GitLab CI/CD', 'Docker', 'MLflow'],
   } satisfies Record<string, string[]>,
   interests: [
     { icon: 'home', label: 'Home Automation' },

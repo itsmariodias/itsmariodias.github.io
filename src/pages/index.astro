@@ -4,16 +4,19 @@ import { Image } from 'astro:assets';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import PostCard from '../components/PostCard.astro';
+import Publications from '../components/resume/Publications.astro';
 import TerminalHeading from '../components/TerminalHeading.astro';
 import { resume } from '../profile/resume';
-import { projects } from '../profile/projects';
+import { projects, publications } from '../profile/projects';
 import profile from '../assets/profile.png';
 
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
 
-const featured = projects.find((p) => p.featured) ?? projects[0];
+const featuredProjects = projects.filter((p) => p.featured);
+const featured = (featuredProjects.length ? featuredProjects : projects).slice(0, 3);
+const featuredPublications = publications.filter((p) => p.featured).slice(0, 3);
 ---
 <BaseLayout title="Mario Dias">
   <section class="container-narrow pt-20 pb-10">
@@ -64,27 +67,40 @@ const featured = projects.find((p) => p.featured) ?? projects[0];
     )}
   </section>
 
-  {featured && (
+  {(featured.length > 0 || featuredPublications.length > 0) && (
     <section class="container-narrow py-12">
       <div class="flex items-baseline justify-between gap-4">
         <div>
-          <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Featured</p>
+          <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Portfolio</p>
           <h2 class="font-display text-2xl font-semibold tracking-tight text-zinc-900 dark:text-zinc-50 sm:text-3xl">
-            Project
+            Featured work
           </h2>
         </div>
         <a href="/projects" class="text-sm font-medium text-accent hover:underline">All projects →</a>
       </div>
-      <div class="mt-8">
-        <ProjectCard
-          title={featured.title}
-          description={featured.description}
-          year={featured.year}
-          tags={featured.tags}
-          links={featured.links}
-          cover={featured.cover}
-        />
-      </div>
+
+      {featured.length > 0 && (
+        <ul class="mt-8 space-y-6">
+          {featured.map((project) => (
+            <li>
+              <ProjectCard
+                title={project.title}
+                description={project.description}
+                year={project.year}
+                tags={project.tags}
+                links={project.links}
+                cover={project.cover}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+
+      {featuredPublications.length > 0 && (
+        <div class="mt-6">
+          <Publications featured limit={3} />
+        </div>
+      )}
     </section>
   )}
 </BaseLayout>

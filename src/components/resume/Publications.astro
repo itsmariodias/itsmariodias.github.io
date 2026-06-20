@@ -1,28 +1,49 @@
 ---
 import { publications } from '../../profile/projects';
+import ClampToggle from '../ClampToggle.astro';
+
+interface Props {
+  featured?: boolean;
+  limit?: number;
+}
+const { featured = false, limit } = Astro.props;
+
+let entries = featured ? publications.filter((p) => p.featured) : publications;
+if (limit) entries = entries.slice(0, limit);
 ---
 <ol class="space-y-6">
-  {publications.map((p) => (
+  {entries.map((p) => (
     <li class="rounded-2xl border border-zinc-200 p-6 transition hover:border-accent dark:border-zinc-800 dark:hover:border-accent">
-      <h3 class="font-display text-lg font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
-        {p.doi ? (
-          <a href={p.doi} target="_blank" rel="noopener noreferrer" class="hover:text-accent">
-            {p.title}
-          </a>
-        ) : (
-          p.title
-        )}
-      </h3>
+      <div class="flex items-start justify-between gap-x-4">
+        <h3 class="min-w-0 font-display text-xl font-semibold leading-snug text-zinc-900 dark:text-zinc-50">
+          {p.doi ? (
+            <a href={p.doi} target="_blank" rel="noopener noreferrer" class="hover:text-accent">
+              {p.title}
+            </a>
+          ) : (
+            p.title
+          )}
+        </h3>
+        <span class="shrink-0 pt-0.5 text-sm text-zinc-500 dark:text-zinc-400">{p.year}</span>
+      </div>
       <p class="mt-2 text-sm text-zinc-600 dark:text-zinc-400">{p.authors}</p>
-      <p class="mt-1 text-sm text-zinc-500 dark:text-zinc-500">
-        <span class="italic">{p.venue}</span>, {p.year}
-      </p>
+      <p class="mt-1 text-sm italic text-zinc-500 dark:text-zinc-500">{p.venue}</p>
+      {p.description && <ClampToggle text={p.description} class="mt-3" />}
       {p.doi && (
-        <p class="mt-3 text-xs">
-          <a href={p.doi} target="_blank" rel="noopener noreferrer" class="font-mono text-accent underline underline-offset-2">
+        <div class="mt-4">
+          <a
+            href={p.doi}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="group inline-flex items-center gap-1.5 rounded-full border border-zinc-200 px-3.5 py-1.5 font-mono text-xs text-zinc-700 transition hover:border-accent hover:text-accent dark:border-zinc-800 dark:text-zinc-300 dark:hover:border-accent dark:hover:text-accent"
+          >
+            <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+              <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8" />
+            </svg>
             {p.doi.replace('https://', '')}
           </a>
-        </p>
+        </div>
       )}
     </li>
   ))}

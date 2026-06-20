@@ -1,0 +1,95 @@
+---
+// Truncates `text` to 3 lines and appends an inline, clickable "…more" link
+// (and "less" when expanded). Progressive: without JS the full text renders.
+interface Props {
+  text: string;
+  class?: string;
+}
+const { text, class: className } = Astro.props;
+---
+<p
+  data-clamp
+  data-text={text}
+  class:list={['leading-relaxed text-zinc-700 dark:text-zinc-300', className]}
+>{text}</p>
+
+<script>
+  const MAX_LINES = 3;
+
+  const els = document.querySelectorAll<HTMLElement>('[data-clamp]');
+
+  els.forEach((p) => {
+    const full = (p.dataset.text ?? p.textContent ?? '').trim();
+    const words = full.split(/\s+/);
+
+    const cs = getComputedStyle(p);
+    let lineHeight = parseFloat(cs.lineHeight);
+    if (Number.isNaN(lineHeight)) lineHeight = parseFloat(cs.fontSize) * 1.625;
+
+    const textSpan = document.createElement('span');
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'cursor-pointer text-accent underline underline-offset-2';
+
+    let expanded = false;
+
+    const maxHeight = () => lineHeight * MAX_LINES + 1;
+
+    // Returns true if a toggle is needed (text overflows 3 lines).
+    function collapse() {
+      // Does the full text already fit in 3 lines?
+      p.replaceChildren(document.createTextNode(full));
+      if (p.scrollHeight <= maxHeight()) return false;
+
+      // Largest word count whose text + "…more" still fits in 3 lines.
+      toggle.textContent = '…more';
+      let lo = 0;
+      let hi = words.length;
+      let best = 0;
+      while (lo <= hi) {
+        const mid = (lo + hi) >> 1;
+        textSpan.textContent = words.slice(0, mid).join(' ') + ' ';
+        p.replaceChildren(textSpan, toggle);
+        if (p.scrollHeight <= maxHeight()) {
+          best = mid;
+          lo = mid + 1;
+        } else {
+          hi = mid - 1;
+        }
+      }
+      textSpan.textContent = words.slice(0, best).join(' ') + ' ';
+      p.replaceChildren(textSpan, toggle);
+      return true;
+    }
+
+    function expand() {
+      toggle.textContent = ' less';
+      textSpan.textContent = full + ' ';
+      p.replaceChildren(textSpan, toggle);
+    }
+
+    toggle.addEventListener('click', () => {
+      expanded = !expanded;
+      if (expanded) expand();
+      else collapse();
+    });
+
+    function refresh() {
+      if (expanded) return;
+      collapse();
+    }
+
+    let raf = 0;
+    window.addEventListener('resize', () => {
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(refresh);
+    });
+
+    // Web fonts change line metrics, so wait for them before measuring.
+    if (document.fonts && 'ready' in document.fonts) {
+      document.fonts.ready.then(collapse);
+    } else {
+      collapse();
+    }
+  });
+</script>
