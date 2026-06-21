@@ -4,12 +4,12 @@ Personal site for Mario Dias: resume + blog. Built with [Astro](https://astro.bu
 
 ## Routes
 
-- `/` Home: landing card with a short intro, latest blog posts, and a featured project.
+- `/` Home: landing card with a short intro, the latest 3 blog posts, and up to 3 featured projects (newest first).
 - `/blog`, `/blog/<slug>`: markdown-authored blog.
 - `/tags`, `/tags/<tag>`: browse posts by tag.
 - `/years`, `/years/<year>`: browse posts by year.
-- `/projects`: curated list of projects followed by research publications.
-- `/about`: long-form resume (experience, skills, education, awards, certifications, interests, contact) plus a download link to the PDF.
+- `/projects`: curated list of projects (newest first) followed by research publications, with a sticky "On this page" rail.
+- `/about`: long-form resume (experience, skills, education, awards, certifications, interests, languages, contact) with a sticky "On this page" rail, plus a download link to the PDF.
 
 ## Develop
 
@@ -59,10 +59,10 @@ Tag and year archives are derived automatically from each post's `tags` and `pub
 
 Data is split by page:
 
-- `src/profile/resume.ts` for everything on `/about` (about, experience, skills, education, awards, certifications, interests, socials) and the identity fields used on `/` (name, tagline, email). Socials (GitHub, LinkedIn, Medium) render in the footer and the contact section; add one by appending to the `socials` array and adding its icon branch in `src/components/Footer.astro` and `src/components/resume/Contact.astro`.
+- `src/profile/resume.ts` for everything on `/about` (about, experience, skills, education, awards, certifications, interests, languages, socials) and the identity fields used on `/` (name, tagline, email). Socials (GitHub, LinkedIn, Medium) render in the footer and the contact section; add one by appending to the `socials` array and adding its icon branch in `src/components/Footer.astro` and `src/components/resume/Contact.astro`.
 - `src/profile/projects.ts` for `/projects`: exports `projects` and `publications`. The Home page also pulls the featured project from here.
 
-Project entries support: `title`, `description`, `year?`, `tags?`, `links` (with labels `GitHub` / `Demo` / `Article` / `Paper` / `Website`, each auto-iconed), `featured?` (surfaces it on Home), and `cover?` (image path served from `public/`, shown on the left of the card).
+Project entries support: `title`, `description`, `year?`, `tags?`, `links` (with labels `GitHub` / `Demo` / `Article` / `Paper` / `Website`, each auto-iconed), `featured?` (surfaces it on Home), and `cover?` (image path served from `public/`, shown on the left of the card). When a project also has a paper, cross-link it with a `Paper` link to the publication's DOI rather than duplicating the entry.
 
 Section components live in `src/components/resume/`. The project card lives in `src/components/ProjectCard.astro`.
 

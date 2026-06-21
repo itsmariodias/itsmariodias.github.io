@@ -60,14 +60,15 @@ export const resume = {
       location: 'Navi Mumbai, India',
       period: 'Jul 2022 – Present',
       bullets: [
-        'Built a real-time audio-based RAG assistant for the CEO, CFO, and Investor Relations team to generate context-aware, low-latency talking points during quarterly earnings calls (Azure Speech, Azure OpenAI, FAISS, FastAPI).',
-        'Deployed an autonomous agent for financial sign-off summarisation as part of the UBS ampliFi initiative, using LangGraph, FastAPI, and Azure OpenAI to streamline work for controllers.',
-        'Won the UBS India Hackathon 2024 with a multi-agent RAG-based AI assistant (LangChain, LangGraph, Azure OpenAI, Azure AI Search) providing application-specific user assistance and automated incident reporting.',
-        'Delivered a PoC for AI-powered financial commentary automation (FastAPI, LangGraph, Azure OpenAI), saving users up to 1.5 hours daily.',
+        'Built a real-time audio-based RAG assistant for the CEO, CFO, and Investor Relations team to generate context-aware, low-latency talking points during quarterly earnings calls using Azure Speech, Azure OpenAI, FAISS, and FastAPI.',
+        'Developed ampliFi Data Integrity, a configurable machine learning-based anomaly detection system for financial datasets to early detect and prevent data quality issues, using SynapseML, Databricks and MLFlow.',
+        'Deployed an autonomous agent for financial signoff summarization as part of the UBS ampliFi initiative, leveraging LangGraph, FastAPI, and Azure OpenAI to streamline and assist controllers.',
+        'Won UBS India Hackathon 2024 by developing a multi-agent RAG-based AI assistant using LangChain, LangGraph, Azure OpenAI, and Azure AI Search to provide application-specific user assistance and automated incident reporting, showcasing innovation in enterprise AI.',
         'Designed and optimised an ETL pipeline in Databricks ingesting millions of records for daily balance-sheet reporting, using a concurrent queue to process data from 13+ regions across 100+ daily jobs.',
-        'Boosted critical Databricks jobs from 45 minutes to under 8 minutes, improving data availability and reducing cost.',
+        'Boosted the performance of critical Databricks jobs from 45 minutes to under 8 minutes, significantly enhancing data availability, reducing costs, and improving operational efficiency.',
+        'Played a key role in the development of an efficient Automation Testing framework for the application, leveraging Spring and Cucumber to encourage Behaviour-Driven Development and reduce testing time, leading to increased release cycles.',
         'Recognised as a UBS Certified Gold Engineer for technical excellence and consistent delivery.',
-        'Core member of the UBS AI Ventures Challenge, mentoring graduates on AI and innovation against real financial datasets.',
+        'Core member of the UBS AI Ventures Challenge, mentoring graduates on AI and innovation against real-world business problem statements.',
       ],
     },
     {
@@ -115,6 +116,12 @@ export const resume = {
   ] satisfies Education[],
   awards: [
     {
+      title: 'Winner, UBS India Hackathon 2024',
+      issuer: 'UBS',
+      year: '2024',
+      note: 'Built a multi-agent RAG-based AI assistant providing application-specific user assistance and automated incident reporting.',
+    },
+    {
       title: 'Outstanding Performer Achievement',
       issuer: 'UBS',
       year: '2023',
@@ -132,6 +139,7 @@ export const resume = {
     { title: 'UBS Certified Gold Engineer', issuer: 'UBS', year: '2025', url: 'https://www.credly.com/badges/ddb8b2ea-362c-47c7-b529-49f22ac2a681'},
     { title: 'Azure AI Fundamentals', issuer: 'Microsoft', year: '2024', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/390e31d18b3c2009' },
     { title: 'Power BI Data Analyst Associate', issuer: 'Microsoft', year: '2024', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/c51accc8f931fe67' },
+    { title: 'Databricks Fundamentals', issuer: 'Databricks', year: '2024', url: 'https://credentials.databricks.com/8976af1e-7512-4303-ab37-fcfc20b1f3f6#acc.p4ThPr1i' },
     { title: 'Azure Fundamentals', issuer: 'Microsoft', year: '2023', url: 'https://learn.microsoft.com/en-us/users/mariodias-5640/credentials/ef9d19ba120cc9eb' },
     { title: 'Deep Learning Specialization', issuer: 'DeepLearning.AI', year: '2020', url: 'https://www.coursera.org/account/accomplishments/specialization/NYHFDZ3YFQGR' },
   ] satisfies Certification[],
