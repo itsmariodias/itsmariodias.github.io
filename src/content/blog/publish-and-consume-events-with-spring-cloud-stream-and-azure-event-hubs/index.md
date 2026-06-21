@@ -27,7 +27,7 @@ Using Event Hubs we can publish events from our applications directly to the clo
 
 To implement event publishing and consuming mechanisms in our Spring applications, we will be using **Spring Cloud Stream** which is a framework for building highly scalable event-driven microservices connected with shared messaging systems. In our case Azure has provided a binder implementation for Event Hubs which is directly integrated with Spring Cloud Stream.
 
-> *Spring Cloud Stream v3.x introduced [a new Functional Programming model](https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0) that moved away from the annotation-based model (like `@EnableBinding` and `@StreamListener`) and instead favours Java 8’s functional interfaces like `Supplier`, `Consumer` and `Function` (See [this blog post series](https://spring.io/blog/2019/10/14/spring-cloud-stream-demystified-and-simplified) for more information).*
+> Spring Cloud Stream v3.x introduced [a new Functional Programming model](https://spring.io/blog/2020/07/13/introducing-java-functions-for-spring-cloud-stream-applications-part-0) that moved away from the annotation-based model (like `@EnableBinding` and `@StreamListener`) and instead favours Java 8’s functional interfaces like `Supplier`, `Consumer` and `Function` (See [this blog post series](https://spring.io/blog/2019/10/14/spring-cloud-stream-demystified-and-simplified) for more information).
 
 ## Creating an Event Hub
 
@@ -74,7 +74,7 @@ With our Event Hub now created, we can now create consumer groups inside them as
 
 To keep track of when or whether an event was consumed or not, **checkpointing** is used. When a consumer successfully reads and process an event, it creates a checkpoint. This checkpoint informs other consumers in the consumer group that the event has been read and to stop processing it. Of course, to allow other consumers to know this, the checkpoint information has to be stored somewhere. For this we will be using **Azure Blob Storage**.
 
-> *Checkpointing is the responsibility of the customer, Azure does not provide it. In our case we’ll be using Spring Cloud Stream which luckily has this checkpointing functionality built in.*
+> Checkpointing is the responsibility of the customer, Azure does not provide it. In our case we’ll be using Spring Cloud Stream which luckily has this checkpointing functionality built in.
 
 ## Creating a Storage Account
 
@@ -213,7 +213,7 @@ public class EventhubsService {
 }
 ```
 
-> *You might have observed a piece of code in the `Controller` class called `publishOn(Schedulers.boundedElastic())` . This needs to be implemented because in the current library version of `com.azure.spring:spring-cloud-azure-stream-binder-eventhubs:4.7.0` there is a **bug** that prevents `StreamBridge` from being called in **a non-blocking context**. Publishing the reactive chain into a `boundedElastic` thread schedule allows us to call the `StreamBridge` successfully (I have raised an [issue](https://github.com/Azure/azure-sdk-for-java/issues/35215) on this with the Azure team, so it should be resolved in later versions).*  
+> You might have observed a piece of code in the `Controller` class called `publishOn(Schedulers.boundedElastic())` . This needs to be implemented because in the current library version of `com.azure.spring:spring-cloud-azure-stream-binder-eventhubs:4.7.0` there is a **bug** that prevents `StreamBridge` from being called in **a non-blocking context**. Publishing the reactive chain into a `boundedElastic` thread schedule allows us to call the `StreamBridge` successfully (I have raised an [issue](https://github.com/Azure/azure-sdk-for-java/issues/35215) on this with the Azure team, so it should be resolved in later versions).  
 > **UPDATE**: This issue has been resolved in version **4.20.0** of the library, so you can now update to that version and remove the `publishOn` line!
 
 ### Configuring the Properties
@@ -256,7 +256,7 @@ spring:
           errorChannelEnabled: true
 ```
 
-> *For more information on the configuration properties, please refer to the [Spring](https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_configuration_options) and [Azure](https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/spring-cloud-stream-support?tabs=SpringCloudAzure4x#configuration) documentations.*
+> For more information on the configuration properties, please refer to the [Spring](https://docs.spring.io/spring-cloud-stream/docs/current/reference/html/spring-cloud-stream.html#_configuration_options) and [Azure](https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/spring-cloud-stream-support?tabs=SpringCloudAzure4x#configuration) documentations.
 
 Most properties are self explanatory. `spring.cloud.function.definition` is used to define the beans that Spring will register for directing events to for consumption. `spring.cloud.stream.output-bindings` is an optional property that will establish the binding connection for the producer when the application starts instead of the first time `streamBridge.send` is called.
 
@@ -268,7 +268,7 @@ We set the `consumer.checkpoint.mode` to `RECORD` which checkpoints an event whe
 
 There are two properties that aren’t defined in the above config. `${AZURE_EVENTHUB_NAMESPACE_CONNECTION_STRING}` and `${AZURE_STORAGE_ACCOUNT_KEY}`. These are keys that are will be used to allow our application to connect to the Event Hub and Storage Account we setup previously.
 
-> *By default connection string can be used to provide authentication. However its **recommended** to use [service principals (via Azure AD)](https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/authentication#authentication-and-authorization-with-azure-active-directory) and [managed identities](https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/authentication#managed-identities) as credentials instead in real world applications. (I’ll probably make a follow up post on the different authentication methods later on.)*
+> By default connection string can be used to provide authentication. However its **recommended** to use [service principals (via Azure AD)](https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/authentication#authentication-and-authorization-with-azure-active-directory) and [managed identities](https://learn.microsoft.com/en-us/azure/developer/java/spring-framework/authentication#managed-identities) as credentials instead in real world applications. (I’ll probably make a follow up post on the different authentication methods later on.)
 
 To get the connection string, navigate to your **Event Hub Namespace**, select *Shared access policies* under *Settings* on the left, and select the **RootManageSharedAccessKey** policy.
 

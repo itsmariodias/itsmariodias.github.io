@@ -138,10 +138,17 @@ def attention(q, k, v):
 
 ### Blockquotes (two styles)
 
-1. A plain blockquote — thin left rule, muted:
+1. A plain blockquote — thin left rule, muted. Two conventions on top of it:
+
+   - A **direct quotation** (something you're citing from a source, marked with
+     `"…"`) is italicised by wrapping the quoted text in `*…*`. Keep any
+     attribution (`— Author`, `Source — …`) outside the italics.
+   - A **note or aside in your own words** stays plain (no italics).
 
    ```markdown
    > A normal aside or pulled-in note.
+
+   > *"A direct quotation from a source."* — Author
    ```
 
 2. A **pull quote** — large, centered display text — via the `:::pullquote`

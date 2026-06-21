@@ -176,7 +176,7 @@ X_train = tokenizer(
         )
 ```
 
-> *Tokenization will take a while, better take grab a cup of tea in the meantime.*
+> Tokenization will take a while, better take grab a cup of tea in the meantime.
 
 The above code can be used for similarly for `X_val` and `X_test`. You’ll observe the output contains 2 things, `input_ids` and `attention_mask`. `input_ids` contains our padded sentence converted into indexes, while `attention_mask` contains only 1’s and 0’s, with 1’s representing the non-padded tokens. This is helpful to prevent the model from attending to padded tokens which have no information.
 
@@ -236,7 +236,7 @@ class DataGenerator(tf.keras.utils.Sequence):
 
 The `__getitem__` method is called by the model during training. `idx` is the step number which can be used to provide different batches at each step during training (The number of steps is `(total number of input data) / (batch size)`). `on_epoch_end` is called at the end of an epoch (when all input data has been processed once) where we shuffle the data so that the batches formed in the next epoch don’t contain the same collection of data (prevents model from relying on the order of data for prediction).
 
-> *Most of these features are provided as arguments in `model.fit()`. However I included this here so you can understand how to implement these features for more complex data loading scenarios (Like with multiple input sources).*
+> Most of these features are provided as arguments in `model.fit()`. However I included this here so you can understand how to implement these features for more complex data loading scenarios (Like with multiple input sources).
 
 Now to define the data generator for each of our data splits we can call `DataGenerator` like below:
 
@@ -309,7 +309,7 @@ def build_model(bert_model_name, max_length, dropout_rate, num_classes, activati
 
 We use Keras’ `Input` method to supply our text and attention mask inputs. We then use the `TFBertModel.from_pretrained` method from the transformers library to load the BERT model directly from HuggingFace’s repository. We extract the pooler output from the BERT model and apply dropout on it, which we then pass to the `Dense` layer which has an activation function that will return us an output.
 
-> *BERT has a pooler layer which basically aggregates the output of the encoder into a representation. In our model, we could have also just taken the last hidden state output of the first token in the sentence. For every input sentence, a `[CLS]` was appended to the beginning and the authors recommend using the output of this token for any classification tasks. You can try experimenting with this to see which output gives better performance!*
+> BERT has a pooler layer which basically aggregates the output of the encoder into a representation. In our model, we could have also just taken the last hidden state output of the first token in the sentence. For every input sentence, a `[CLS]` was appended to the beginning and the authors recommend using the output of this token for any classification tasks. You can try experimenting with this to see which output gives better performance!
 
 ## Loading the Model
 
@@ -325,7 +325,7 @@ model.compile(loss="binary_crossentropy", optimizer=tf.keras.optimizers.Adam(lea
 
 In our case, we’ll be using a smaller sized BERT model, which was introduced in [Well-Read Students Learn Better: On the Importance of Pre-training Compact Models](https://arxiv.org/abs/1908.08962). These models are smaller but still provide good performance while allowing us to train faster and being less memory intensive (You can view the different models available [here](https://github.com/google-research/bert/)). We use the sigmoid activation function so that the final output is between 0 and 1. For loss, we use *Binary Cross Entropy* since we are performing a classification task with only 2 categories. We use the *Adam* optimizer, which is a popular and reliable optimizer and set the learning rate to *2e-5*. We will also be using accuracy as a metric since we just need to compare if our output matches the target or not.
 
-> *We use a smaller learning rate as we are fine-tuning BERT in our model. Larger learning rates on pre-trained models may perform worse since we might end up losing the already learned information the model has as it tries to adapt to the new set of data (a situation known as **overfitting**).*
+> We use a smaller learning rate as we are fine-tuning BERT in our model. Larger learning rates on pre-trained models may perform worse since we might end up losing the already learned information the model has as it tries to adapt to the new set of data (a situation known as **overfitting**).
 
 Once our model is compiled, we can get a summary of the model architecture and parameters by calling `model.summary()`.
 
@@ -397,7 +397,7 @@ history = model.fit(
 
 We train the model for 4 epochs, since we are just fine-tuning the BERT model. Better go get some sleep now, because if you used the entire 1.6 million tweets as your input data, its going to take a while (~10 hours!). Or if you’re lazy like me, we can see how the model performs on 1% of the input data:
 
-> *Specifying the `step_size` argument on the `DataGenerator` class allows you to specify how many steps an epoch should contain.*
+> Specifying the `step_size` argument on the `DataGenerator` class allows you to specify how many steps an epoch should contain.
 
 ```text
 Epoch 1/4

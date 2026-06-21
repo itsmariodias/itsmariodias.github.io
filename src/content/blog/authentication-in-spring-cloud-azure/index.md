@@ -57,7 +57,7 @@ Managed Identities only work and make sense in the context that all the resource
 ![Creating a simple Azure Spring Apps instance.](./create-spring-apps.png)
 *Creating a simple Azure Spring Apps instance.*
 
-> *You also need to create a spring application to actually configure managed identities. If you’re using IntelliJ IDEA, you can [follow this guide](https://learn.microsoft.com/en-us/azure/spring-apps/how-to-intellij-deploy-apps) to quickly and easily deploy your application using Azure Spring Apps. Else, you can give [this quickstart](https://learn.microsoft.com/en-us/azure/spring-apps/quickstart?pivots=sc-enterprise&tabs=Azure-portal%2CIntelliJ%2CConsumption-workload) a try as well.*
+> You also need to create a spring application to actually configure managed identities. If you’re using IntelliJ IDEA, you can [follow this guide](https://learn.microsoft.com/en-us/azure/spring-apps/how-to-intellij-deploy-apps) to quickly and easily deploy your application using Azure Spring Apps. Else, you can give [this quickstart](https://learn.microsoft.com/en-us/azure/spring-apps/quickstart?pivots=sc-enterprise&tabs=Azure-portal%2CIntelliJ%2CConsumption-workload) a try as well.
 
 There are two types of managed identities offered in Azure, and we’ll be exploring both of them in our sample application.
 

@@ -142,7 +142,7 @@ consumeFire-in-0:
   group: $Default
 ```
 
-> *To ensure that Spring Cloud Stream uses the properties defined at the `spring.cloud.azure` level for default binders, we need to set `default-candidate` to `false` for every explicitly defined binder.*
+> To ensure that Spring Cloud Stream uses the properties defined at the `spring.cloud.azure` level for default binders, we need to set `default-candidate` to `false` for every explicitly defined binder.
 
 We don’t have to do anything new for Event Hub `bulbasaur` since its configurations are set in the default binder.
 

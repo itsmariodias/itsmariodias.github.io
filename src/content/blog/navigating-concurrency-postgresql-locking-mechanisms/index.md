@@ -57,7 +57,7 @@ LOCK TABLE <table-name> IN ACCESS EXCLUSIVE MODE;
 
 `ACCESS EXCLUSIVE` is the only mode in which `SELECT` statements are blocked. This lock mode is usually used by table level operations, like `TRUNCATE` or `DROP TABLE`. However, this approach would create a significant bottleneck as it blocks all tasks, including the one being worked on. So this option would not work as well.
 
-> *There are way more locking modes provided by PostgreSQL, both on the table and row level which I have not covered since it did not apply to my case. You can read more about them [here](https://www.postgresql.org/docs/current/explicit-locking.html#EXPLICIT-LOCKING).*
+> There are way more locking modes provided by PostgreSQL, both on the table and row level which I have not covered since it did not apply to my case. You can read more about them [here](https://www.postgresql.org/docs/current/explicit-locking.html#EXPLICIT-LOCKING).
 
 ## Advisory Locks
 

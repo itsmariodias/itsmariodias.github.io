@@ -35,7 +35,7 @@ In Rust, the [official book](https://doc.rust-lang.org/book/ch11-03-test-organiz
 
 Rust supports this because `cargo`, its build system, can easily distinguish test code from production code during the build process:
 
-> *Unit tests go in the same file as the code, inside a `#[cfg(test)]` module. Integration tests live in the `tests/` directory.*
+> *“Unit tests go in the same file as the code, inside a `#[cfg(test)]` module. Integration tests live in the `tests/` directory.”*
 
 This layout works seamlessly in Rust because the compiler explicitly filters test code when building the final binary. So perhaps the technicalities of colocation depends on whether your compiler can easily separate the tests from the code or not.
 
@@ -61,11 +61,11 @@ The [React GitHub repo](https://github.com/facebook/react/tree/main) shows that 
 
 Jest, the default test runner for React, is similarly flexible. [Jest examples](https://github.com/jestjs/jest/tree/main/examples) show colocated `__tests__` directories, but the layout is not strictly enforced:
 
-> “Jest doesn’t care where your tests are. As long as they end in `.test.js` or `.spec.js`, they’ll be picked up.”
+> *“Jest doesn’t care where your tests are. As long as they end in `.test.js` or `.spec.js`, they’ll be picked up.”*
 
 A good reflection on this approach comes from [Connor Elsea’s blog post](https://connorelsea.medium.com/the-case-for-colocating-tests-in-react-cef6ea7b4a1a):
 
-> “Colocation lowers the friction to write and maintain tests. It makes it clear what is tested and what is not.”
+> *“Colocation lowers the friction to write and maintain tests. It makes it clear what is tested and what is not.”*
 
 This philosophy promotes accessibility and visibility — important values in JavaScript-heavy codebases.
 
@@ -73,7 +73,7 @@ This philosophy promotes accessibility and visibility — important values i
 
 In Go, testing is built into the language with the `testing` [package](https://pkg.go.dev/testing). The convention is to place tests in files ending with `_test.go` within the same package and directory:
 
-> “You can use a separate package (e.g., `mypkg_test`) in the same directory for black-box testing, ensuring tests don’t have access to internal state.”
+> *“You can use a separate package (e.g., `mypkg_test`) in the same directory for black-box testing, ensuring tests don’t have access to internal state.”*
 
 This approach, explained well in [this post](https://jdkaplan.dev/blog/thinkin-logs-2021-10-07/), offers the benefits of colocation while supporting encapsulation, which can be a considered a best of both worlds.
 
@@ -85,13 +85,13 @@ In Python, both `unittest` and `pytest` offer great flexibility.
 
 With `unittest`, [test discovery](https://docs.python.org/3/library/unittest.html#test-discovery) is based on naming conventions and package imports:
 
-> “By default, it will discover tests in any file named `test*.py`, recursively, from the top-level directory.”
+> *“By default, it will discover tests in any file named `test*.py`, recursively, from the top-level directory.”*
 
 The documentation [recommends](https://docs.python.org/3/library/unittest.html#organizing-test-code) keeping tests in separate modules or directories, but this is not enforced.
 
 `pytest` takes this further by explicitly supporting both separate and colocated test layouts in its [good practices guide](https://docs.pytest.org/en/stable/explanation/goodpractices.html#choosing-a-test-layout):
 
-> “Colocated tests may be better for small projects and cases where test and code development are tightly coupled.”
+> *“Colocated tests may be better for small projects and cases where test and code development are tightly coupled.”*
 
 This puts Python in the same camp as JavaScript/React: no technical restriction, just preference.
 
@@ -105,7 +105,7 @@ Here are some strong arguments in favor of test colocation, as outlined in [Kent
 - **Simplified project layout**: Especially helpful for smaller codebases.
 - **Improved maintainability**: Tests get updated alongside the code they test.
 
-> “Colocation makes it much easier to see which files are lacking tests and makes refactoring a more confident process.” — Kent C. Dodds
+> *“Colocation makes it much easier to see which files are lacking tests and makes refactoring a more confident process.”* — Kent C. Dodds
 
 ## Concerns About Colocation
 
