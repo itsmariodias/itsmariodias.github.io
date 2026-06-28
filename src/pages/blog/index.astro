@@ -24,6 +24,9 @@ const years = [...groups.keys()].sort((a, b) => b - a);
     <p class="mt-4 max-w-2xl text-lg text-zinc-600 dark:text-zinc-400">
       Articles and notes on my projects, learnings, and everything in between. I write about AI, software development, and home automation, among other things.
     </p>
+    <p class="mt-4 text-sm text-zinc-500 dark:text-zinc-400">
+      Browse by <a href="/tags/" class="text-accent underline underline-offset-2">tag</a> or <a href="/years/" class="text-accent underline underline-offset-2">year</a>. Subscribe via <a href="/rss.xml" class="text-accent underline underline-offset-2">RSS</a>.
+    </p>
   </section>
 
   <div class="container-narrow relative pb-16">
@@ -71,10 +74,6 @@ const years = [...groups.keys()].sort((a, b) => b - a);
         ))}
       </ol>
     )}
-
-    <p class="mt-12 text-sm text-zinc-500 dark:text-zinc-400">
-      Browse by <a href="/tags/" class="text-accent underline underline-offset-2">tag</a> or <a href="/years/" class="text-accent underline underline-offset-2">year</a>. Subscribe via <a href="/rss.xml" class="text-accent underline underline-offset-2">RSS</a>.
-    </p>
   </div>
 
   <script>
