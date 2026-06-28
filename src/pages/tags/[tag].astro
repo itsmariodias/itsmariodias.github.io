@@ -1,7 +1,7 @@
 ---
 import { getCollection, type CollectionEntry } from 'astro:content';
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { formatDate } from '../../utils/formatDate';
+import PostCard from '../../components/PostCard.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -39,13 +39,8 @@ const { tag, posts } = Astro.props;
 
     <ul class="mt-10 divide-y divide-zinc-200 dark:divide-zinc-800">
       {posts.map((post) => (
-        <li class="py-5">
-          <a href={`/blog/${post.slug}/`} class="group flex items-baseline justify-between gap-x-4">
-            <h2 class="min-w-0 font-display text-xl font-semibold text-zinc-900 transition group-hover:text-accent dark:text-zinc-50">
-              {post.data.title}
-            </h2>
-            <time class="shrink-0 text-sm text-zinc-500 dark:text-zinc-400">{formatDate(post.data.pubDate)}</time>
-          </a>
+        <li class="py-6">
+          <PostCard post={post} />
         </li>
       ))}
     </ul>
