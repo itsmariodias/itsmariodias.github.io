@@ -1,7 +1,7 @@
 import type { APIRoute } from 'astro';
 import sharp from 'sharp';
 import { resume } from '../profile/resume';
-import { W, H, ACCENT, INK, MUTED, BG, FONT, escapeXml, avatar, pngResponse } from '../utils/og';
+import { W, H, ACCENT, INK, MUTED, BG, FONT, escapeXml, avatar, monogram, MONOGRAM_SIZE, pngResponse } from '../utils/og';
 
 // Site-default Open Graph image at /og-image.png (referenced by BaseLayout).
 // Light theme: name + tagline on the left, circular photo on the right.
@@ -20,6 +20,7 @@ export const GET: APIRoute = async () => {
     <stop offset="100%" stop-color="${ACCENT}" stop-opacity="0"/>
   </radialGradient>
   <rect width="${W}" height="${H}" fill="url(#g)"/>
+  ${monogram(80, 68, MONOGRAM_SIZE)}
   <text x="80" y="252" font-family="${FONT}" font-size="30" font-weight="700" letter-spacing="4" fill="${ACCENT}">${escapeXml(resume.tagline.toUpperCase())}</text>
   <text x="76" y="350" font-family="${FONT}" font-size="92" font-weight="800" letter-spacing="-2" fill="${INK}">${escapeXml(resume.name)}</text>
   <rect x="82" y="392" width="76" height="8" rx="4" fill="${ACCENT}"/>

@@ -12,6 +12,15 @@ export const MUTED = '#71717a'; // zinc-500
 export const BG = '#fafafa'; // zinc-50
 export const FONT = "'Helvetica Neue',Arial,sans-serif";
 
+// MD monogram (matches public/favicon.svg). `x`,`y` place the mark's top-left
+// ink corner; `size` is its width/height in px. Drawn as a single stroke so it
+// reads at small sizes; defaults to ink on the light OG background.
+export const MONOGRAM_PATH =
+  'M 12 12 H 110 A 98 98 0 0 1 110 208 H 12 L 12 68 H 24 L 71 136 L 118 68 H 130 L 130 156';
+export const MONOGRAM_SIZE = 64; // shared px size so both OG cards match
+export const monogram = (x: number, y: number, size: number, color = INK) =>
+  `<g transform="translate(${x},${y}) scale(${size / 220})"><path d="${MONOGRAM_PATH}" fill="none" stroke="${color}" stroke-width="24" stroke-linecap="square" stroke-linejoin="miter"/></g>`;
+
 export const escapeXml = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 

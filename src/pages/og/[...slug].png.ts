@@ -3,14 +3,13 @@ import { getCollection } from 'astro:content';
 import sharp from 'sharp';
 import fs from 'node:fs';
 import path from 'node:path';
-import { W, H, ACCENT, INK, MUTED, BG, FONT, escapeXml, wrap, avatar, pngResponse } from '../../utils/og';
+import { W, H, ACCENT, INK, MUTED, BG, FONT, escapeXml, wrap, monogram, MONOGRAM_SIZE, pngResponse } from '../../utils/og';
 
 // Per-post Open Graph images (1200x630), generated at build. Light theme.
 // If the post has a cover image it is used as a faded full-bleed background
 // (cover-baked); otherwise a plain light card is drawn.
 
 const BLOG_DIR = 'src/content/blog';
-const aD = 80;
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => !data.draft);
@@ -56,8 +55,9 @@ const foreground = (title: string, textWidth = 1040) => {
     .map((line, i) => `<tspan x="80" y="${startY + i * lineHeight}">${escapeXml(line)}</tspan>`)
     .join('');
   return `
-    <text x="176" y="98" font-family="${FONT}" font-size="28" font-weight="700" fill="${INK}">Mario Dias</text>
-    <text x="176" y="130" font-family="${FONT}" font-size="20" font-weight="700" letter-spacing="3" fill="${ACCENT}">BLOG</text>
+    ${monogram(80, 68, MONOGRAM_SIZE)}
+    <text x="156" y="98" font-family="${FONT}" font-size="28" font-weight="700" fill="${INK}">Mario Dias</text>
+    <text x="156" y="130" font-family="${FONT}" font-size="20" font-weight="700" letter-spacing="3" fill="${ACCENT}">BLOG</text>
     <text font-family="${FONT}" font-size="${fontSize}" font-weight="800" letter-spacing="-1" fill="${INK}">${tspans}</text>
     <rect x="82" y="${Math.min(startY + (lines.length - 1) * lineHeight + 26, 520)}" width="76" height="8" rx="4" fill="${ACCENT}"/>
     <text x="80" y="568" font-family="${FONT}" font-size="24" font-weight="500" fill="${MUTED}">itsmariodias.github.io</text>`;
@@ -65,7 +65,6 @@ const foreground = (title: string, textWidth = 1040) => {
 
 export const GET: APIRoute = async ({ props }) => {
   const { title, coverPath } = props as { title: string; coverPath: string | null };
-  const photo = await avatar(aD);
   let png: Buffer;
 
   if (coverPath) {
@@ -105,7 +104,6 @@ export const GET: APIRoute = async ({ props }) => {
       .composite([
         { input: cutPanel, left: panelLeft, top: 0 },
         { input: fg, left: 0, top: 0 },
-        { input: photo, left: 80, top: 108 - aD / 2 },
       ])
       .png()
       .toBuffer();
@@ -120,10 +118,7 @@ export const GET: APIRoute = async ({ props }) => {
   <rect width="${W}" height="${H}" fill="url(#g)"/>
   ${foreground(title)}
 </svg>`);
-    png = await sharp(base)
-      .composite([{ input: photo, left: 80, top: 108 - aD / 2 }])
-      .png()
-      .toBuffer();
+    png = await sharp(base).png().toBuffer();
   }
 
   return pngResponse(png);
