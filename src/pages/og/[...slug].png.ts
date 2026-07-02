@@ -41,13 +41,21 @@ const foreground = (title: string, textWidth = 1040) => {
   const fontSize = len > 70 ? 52 : len > 38 ? 62 : 74;
   const maxChars = Math.max(10, Math.floor(textWidth / (fontSize * 0.52)));
   const lineHeight = Math.round(fontSize * 1.18);
-  const lines = wrap(title, maxChars).slice(0, 3);
+  const allLines = wrap(title, maxChars);
+  const lines = allLines.slice(0, 3);
+  if (allLines.length > 3) {
+    // Overflow: trim the last visible line so the ellipsis still fits.
+    let last = lines[2];
+    while (last.length + 1 > maxChars && last.includes(' ')) {
+      last = last.slice(0, last.lastIndexOf(' '));
+    }
+    lines[2] = last.replace(/[\s.,;:]+$/, '') + '…';
+  }
   const startY = 360;
   const tspans = lines
     .map((line, i) => `<tspan x="80" y="${startY + i * lineHeight}">${escapeXml(line)}</tspan>`)
     .join('');
   return `
-    <circle cx="${80 + aD / 2}" cy="108" r="${aD / 2 + 2}" fill="none" stroke="${INK}" stroke-opacity="0.12" stroke-width="2"/>
     <text x="176" y="98" font-family="${FONT}" font-size="28" font-weight="700" fill="${INK}">Mario Dias</text>
     <text x="176" y="130" font-family="${FONT}" font-size="20" font-weight="700" letter-spacing="3" fill="${ACCENT}">BLOG</text>
     <text font-family="${FONT}" font-size="${fontSize}" font-weight="800" letter-spacing="-1" fill="${INK}">${tspans}</text>

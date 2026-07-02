@@ -45,26 +45,20 @@ export function initScrollSpy({
 
   // While set, a clicked link stays highlighted regardless of scroll position.
   let pinned: string | null = null;
-  const visible = new Set<string>();
 
+  // Active = the last section whose top has scrolled past the nav offset line.
+  // Position-based (rather than IntersectionObserver visibility) so it works for
+  // both tall sections and point-like headings, which would otherwise slip
+  // through a thin intersection band and leave the first link stuck active.
   const compute = () => {
     if (pinned) return setActive(pinned);
     if (atBottom()) return setActive(sections[sections.length - 1].id);
-    const top = sections.find((el) => visible.has(el.id));
-    setActive(top ? top.id : sections[0].id);
+    let active = sections[0].id;
+    for (const el of sections) {
+      if (el.getBoundingClientRect().top - topOffset <= 1) active = el.id;
+    }
+    setActive(active);
   };
-
-  const observer = new IntersectionObserver(
-    (entries) => {
-      for (const entry of entries) {
-        if (entry.isIntersecting) visible.add(entry.target.id);
-        else visible.delete(entry.target.id);
-      }
-      compute();
-    },
-    { rootMargin: `-${topOffset}px 0px -70% 0px`, threshold: 0 },
-  );
-  for (const el of sections) observer.observe(el);
 
   // Click pins the target until the scroll settles, avoiding flash-through.
   for (const link of links) {
@@ -92,8 +86,8 @@ export function initScrollSpy({
     );
   }
 
-  // IntersectionObserver doesn't fire at the very bottom of the page, so nudge
-  // the bottom-override along with a cheap rAF-throttled scroll listener.
+  // Drive the active state as the page scrolls, rAF-throttled so we recompute
+  // at most once per frame.
   let frame = 0;
   window.addEventListener(
     'scroll',

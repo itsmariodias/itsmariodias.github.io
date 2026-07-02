@@ -20,7 +20,6 @@ export const GET: APIRoute = async () => {
     <stop offset="100%" stop-color="${ACCENT}" stop-opacity="0"/>
   </radialGradient>
   <rect width="${W}" height="${H}" fill="url(#g)"/>
-  <circle cx="${cx}" cy="${cy}" r="${r + 3}" fill="none" stroke="${INK}" stroke-opacity="0.12" stroke-width="2"/>
   <text x="80" y="252" font-family="${FONT}" font-size="30" font-weight="700" letter-spacing="4" fill="${ACCENT}">${escapeXml(resume.tagline.toUpperCase())}</text>
   <text x="76" y="350" font-family="${FONT}" font-size="92" font-weight="800" letter-spacing="-2" fill="${INK}">${escapeXml(resume.name)}</text>
   <rect x="82" y="392" width="76" height="8" rx="4" fill="${ACCENT}"/>

@@ -26,10 +26,41 @@ interface Props {
 }
 
 const { post, newer, older } = Astro.props;
-const { Content } = await post.render();
+const { Content, headings } = await post.render();
 const reading = readingTime(post.body);
+
+// Section rail: driven by the post's own h2 headings (each already has an id).
+// rehype-autolink-headings appends a "#" anchor into each heading, which shows
+// up in `text`; strip it for the rail labels.
+const toc = headings
+  .filter((h) => h.depth === 2)
+  .map((h) => ({ ...h, text: h.text.replace(/#\s*$/, '').trimEnd() }));
 ---
 <BaseLayout title={`${post.data.title} · Mario Dias`} description={post.data.description} canonicalUrl={post.data.canonicalUrl} ogImage={`/og/${post.slug}.png`}>
+  <div class="relative">
+    {toc.length > 0 && (
+      <aside class="pointer-events-none absolute left-1/2 top-0 ml-[26rem] hidden h-full w-44 xl:block">
+        <div class="pointer-events-auto sticky top-24">
+          <p class="mb-3 text-xs font-medium uppercase tracking-[0.18em] text-zinc-500 dark:text-zinc-400">
+            On this page
+          </p>
+          <ol class="space-y-1 border-l border-zinc-200 dark:border-zinc-800">
+            {toc.map((h) => (
+              <li>
+                <a
+                  href={`#${h.slug}`}
+                  data-section-link={h.slug}
+                  class="block py-1.5 pl-4 text-sm text-zinc-600 transition hover:text-accent dark:text-zinc-400 dark:hover:text-accent"
+                >
+                  {h.text}
+                </a>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </aside>
+    )}
+
   <article class="container-narrow py-16">
     <header class="mb-10">
       <p class="mb-2 text-xs font-medium uppercase tracking-[0.18em] text-accent">Post</p>
@@ -87,6 +118,17 @@ const reading = readingTime(post.body);
       <a href="/blog/" class="text-accent hover:underline">← Back to blog</a>
     </p>
   </article>
+  </div>
+
+  <script>
+    // Section rail scroll-spy (no-op when the post has no headings/links).
+    import { initScrollSpy } from '../../utils/scrollspy';
+    initScrollSpy({
+      linkSelector: 'a[data-section-link]',
+      activeClasses: ['text-accent', 'font-medium'],
+      inactiveClasses: ['text-zinc-600', 'dark:text-zinc-400'],
+    });
+  </script>
 
   <script>
     // Client-side Mermaid: only loads the runtime on posts that contain a
