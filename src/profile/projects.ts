@@ -86,7 +86,7 @@ export const projects = [
     ],
   },
   {
-    title: "It's a My Money",
+    title: "It's a My Money!",
     description:
       'A personal finance app for Android built with Expo. Track income, expenses, and account balances, fully offline with no accounts and no cloud.',
     year: '2026',
